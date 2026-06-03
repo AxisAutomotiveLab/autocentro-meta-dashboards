@@ -1,0 +1,38 @@
+name: Fetch Meta Ads Data
+
+on:
+  schedule:
+    # Runs every day at 6:00 AM UTC (2:00 AM Puerto Rico time)
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch Meta Ads data
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+        run: python fetch_data.py
+
+      - name: Commit data files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add data/*.json
+          git diff --staged --quiet || git commit -m "Auto-update: Meta Ads data $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
