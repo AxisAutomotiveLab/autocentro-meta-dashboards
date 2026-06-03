@@ -145,6 +145,13 @@ tr:hover td{background:rgba(0,0,0,.015)}
   <button class="pbtn" data-r="last_7d">7d</button>
   <button class="pbtn" data-r="last_90d">90d</button>
   <div class="pdiv"></div>
+  <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap">
+    <input type="date" id="customFrom" style="padding:4px 8px;border-radius:20px;border:1px solid var(--b2);background:transparent;color:var(--tx);font-size:11px;font-family:inherit;cursor:pointer">
+    <span style="color:var(--mu);font-size:11px">—</span>
+    <input type="date" id="customTo" style="padding:4px 8px;border-radius:20px;border:1px solid var(--b2);background:transparent;color:var(--tx);font-size:11px;font-family:inherit;cursor:pointer">
+    <button id="customApply" style="padding:4px 11px;border-radius:20px;border:1px solid var(--brand);background:var(--brand);color:#fff;font-size:11px;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px"><i class="ti ti-refresh" style="font-size:11px"></i>Aplicar</button>
+  </div>
+  <div class="pdiv"></div>
   <span class="pdsp" id="pdsp"></span>
 </div>
 <div class="nbar">
@@ -262,8 +269,16 @@ function renderOverview(){
   else h+='<div class="ib ib-ok"><i class="ti ti-check"></i><span>Performance dentro de rangos saludables · '+rng.since+' — '+rng.until+'</span></div>';
 
   // KPIs
+  // Calculate current month spend from last_30d approximation
+  var today=new Date();
+  var dayOfMonth=today.getDate();
+  var daysInRange=state.range==='last_7d'?7:state.range==='last_14d'?14:state.range==='last_30d'?30:90;
+  var rng30=state.raw&&state.raw.ranges&&state.raw.ranges['last_30d'];
+  var monthSpend=rng30&&rng30.summary?Math.round(rng30.summary.spend/30*dayOfMonth):0;
+
   h+='<div class="kgrid">';
-  h+=kpi('Gasto total',fDK(s.spend),'período seleccionado');
+  h+=kpi('Gasto período',fDK(s.spend),''+rng.since+' — '+rng.until);
+  h+=kpi('Inversión mes actual',fDK(monthSpend),'estimado al día '+dayOfMonth+' · basado en 30d','var(--brand)');
   h+=kpi('Impresiones',fN(s.imp),'');
   h+=kpi('Alcance único',fN(s.reach),'');
   h+=kpi('Frecuencia',fr.toFixed(2)+'x',fr>BM.freq_warn?'⚠ Alta':fr>BM.freq_good?'Monitorear':'✓ OK',freqC(fr));
@@ -329,6 +344,9 @@ function renderPlatforms(){
     h+='</div>';
   });
   h+='</div>';
+  h+='<div class="ib ib-info" style="margin-bottom:.65rem"><i class="ti ti-info-circle"></i><span>';
+  h+='<strong>Nota sobre leads por plataforma:</strong> Meta API puede reportar leads mayores al total del resumen porque una misma persona puede convertir desde múltiples placements. Los números absolutos muestran la distribución de atribución por plataforma. El total oficial de leads está en Overview.';
+  h+='</span></div>';
 
   h+='<div class="g2">';
   h+='<div class="card"><div class="ct"><i class="ti ti-chart-donut"></i>Distribución de gasto</div><div style="position:relative;height:220px"><canvas id="chPD"></canvas></div></div>';
@@ -818,9 +836,60 @@ function initCharts(){
 document.querySelectorAll('.tbar .pbtn').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.tbar .pbtn').forEach(function(x){x.classList.remove('active');});
-    b.classList.add('active');state.range=b.dataset.r;dC();render();
+    b.classList.add('active');state.range=b.dataset.r;state.customRange=null;dC();render();
   });
 });
+
+// Custom date range
+var applyBtn=document.getElementById('customApply');
+if(applyBtn){
+  applyBtn.addEventListener('click',function(){
+    var from=document.getElementById('customFrom').value;
+    var to=document.getElementById('customTo').value;
+    if(!from||!to){alert('Selecciona fecha de inicio y fin');return;}
+    if(from>to){alert('La fecha de inicio debe ser anterior a la fecha fin');return;}
+    // Store custom range
+    state.customRange={since:from,until:to};
+    state.range='custom';
+    // Remove active from presets
+    document.querySelectorAll('.tbar .pbtn').forEach(function(x){x.classList.remove('active');});
+    dC();renderCustom();
+  });
+}
+
+function renderCustom(){
+  // For custom range we call API live — but since data is cached JSON
+  // we find the closest available range or show from last_90d filtered note
+  var rng=state.raw&&state.raw.ranges&&state.raw.ranges['last_90d'];
+  if(!rng){g('mc').innerHTML='<div class="ib ib-warn"><i class="ti ti-alert-triangle"></i><span>Sin datos para rango personalizado.</span></div>';return;}
+  var cr=state.customRange;
+  // Show note that custom range uses last_90d data as base
+  g('pdsp').innerHTML='<strong>'+cr.since+' — '+cr.until+'</strong> <span style="color:var(--mu);font-size:10px">(datos del período más cercano disponible)</span>';
+  // Use last_90d summary as approximation scaled to days
+  var d1=new Date(cr.since+'T00:00:00'),d2=new Date(cr.until+'T00:00:00');
+  var customDays=Math.max(1,Math.round((d2-d1)/864e5)+1);
+  var baseDays=90;
+  var bs=rng.summary||{};
+  var scale=customDays/baseDays;
+  var scaled={
+    spend:  bs.spend*scale,
+    imp:    Math.round(bs.imp*scale),
+    reach:  Math.round(bs.reach*scale),
+    clicks: Math.round(bs.clicks*scale),
+    ctr:    bs.ctr, cpc:bs.cpc, cpm:bs.cpm, freq:bs.freq,
+    leads:  Math.round(bs.leads*scale),
+    thruplay:Math.round(bs.thruplay*scale),
+    views25: Math.round(bs.views25*scale),
+    views100:Math.round((bs.views100||0)*scale),
+  };
+  // Temporarily override range for rendering
+  var origRange=state.range;
+  state.raw.ranges['custom']={since:cr.since,until:cr.until,summary:scaled,platforms:rng.platforms,ads:rng.ads};
+  state.range='custom';
+  var tabs={overview:renderOverview,platforms:renderPlatforms,paid:renderPaid,funnel:renderFunnel,bb:renderBB};
+  g('mc').innerHTML='<div class="ib ib-warn"><i class="ti ti-alert-triangle"></i><span><strong>Rango personalizado: '+cr.since+' — '+cr.until+' ('+customDays+' días)</strong> — Los datos se estiman proporcionalmente desde el período de 90d disponible en el JSON. Para datos exactos de fechas personalizadas, el GitHub Action debe correr primero con ese rango.</span></div>'+(tabs[state.tab]||renderOverview)();
+  setTimeout(initCharts,80);
+}
 document.querySelectorAll('.nbar .ntab').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.nbar .ntab').forEach(function(x){x.classList.remove('active');});
