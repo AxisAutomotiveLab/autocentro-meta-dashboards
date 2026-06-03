@@ -1,1 +1,40 @@
-{"meta":{"dealer_key":"guaynabo","dealer_name":"Autocentro Más Guaynabo","account_id":"1186750509063901","color":"#22c55e","fetched_at":"pending — run GitHub Action first","data_date":""},"ranges":{}}
+{
+  "meta": {
+    "dealer_key": "guaynabo",
+    "dealer_name": "Autocentro Más Guaynabo",
+    "account_id": "1186750509063901",
+    "color": "#22c55e",
+    "fetched_at": "2026-06-03 18:54 UTC",
+    "data_date": "2026-06-03"
+  },
+  "ranges": {
+    "last_7d": {
+      "since": "2026-05-28",
+      "until": "2026-06-03",
+      "summary": {},
+      "platforms": {},
+      "ads": []
+    },
+    "last_14d": {
+      "since": "2026-05-21",
+      "until": "2026-06-03",
+      "summary": {},
+      "platforms": {},
+      "ads": []
+    },
+    "last_30d": {
+      "since": "2026-05-05",
+      "until": "2026-06-03",
+      "summary": {},
+      "platforms": {},
+      "ads": []
+    },
+    "last_90d": {
+      "since": "2026-03-06",
+      "until": "2026-06-03",
+      "summary": {},
+      "platforms": {},
+      "ads": []
+    }
+  }
+}
