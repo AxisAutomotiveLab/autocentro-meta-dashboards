@@ -39,13 +39,11 @@ def api_get(path, params):
         data = r.json()
         if "error" in data:
             err = data["error"]
-            print(f"  ⚠ API error [{err.get('code','?')}] {err.get('message','?')}")
-            if err.get("code") in [190, 102]:
-                print("  ❌ TOKEN EXPIRADO o inválido — regenera en Graph Explorer")
+            print(f"    ⚠ API error [{err.get('code','?')}] {err.get('message','?')}")
             return None
         return data
     except Exception as e:
-        print(f"  ⚠ Request failed: {e}")
+        print(f"    ⚠ Request failed: {e}")
         return None
 
 def verify_token():
@@ -57,9 +55,38 @@ def verify_token():
     print("  ❌ Token verification failed")
     return False
 
+def safe_int(v, default=0):
+    try:
+        return int(float(str(v).replace(',','')))
+    except:
+        return default
+
+def safe_float(v, default=0.0):
+    try:
+        return float(str(v).replace(',',''))
+    except:
+        return default
+
+def parse_summary(r):
+    return {
+        "spend":    safe_float(r.get("spend", r.get("amount_spent", 0))),
+        "imp":      safe_int(r.get("impressions", 0)),
+        "reach":    safe_int(r.get("reach", 0)),
+        "clicks":   safe_int(r.get("clicks", 0)),
+        "ctr":      safe_float(r.get("ctr", 0)),
+        "cpc":      safe_float(r.get("cpc", 0)),
+        "cpm":      safe_float(r.get("cpm", 0)),
+        "freq":     safe_float(r.get("frequency", 0)),
+        "leads":    safe_int(r.get("lead", r.get("leads", 0))),
+        "thruplay": safe_int(r.get("video_thruplay_watched_actions", 0)),
+        "views25":  safe_int(r.get("video_p25_watched_actions", 0)),
+        "views100": safe_int(r.get("video_p100_watched_actions", 0)),
+    }
+
 def fetch_summary(acc_id, since, until):
+    # Use 'spend' not 'amount_spent' — correct field name for v21 insights
     fields = (
-        "amount_spent,impressions,reach,clicks,ctr,cpc,cpm,frequency,lead,"
+        "spend,impressions,reach,clicks,ctr,cpc,cpm,frequency,lead,"
         "video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
     )
     d = api_get(f"/act_{acc_id}/insights", {
@@ -69,27 +96,15 @@ def fetch_summary(acc_id, since, until):
     })
     if d and d.get("data"):
         r = d["data"][0]
-        return {
-            "spend":    float(r.get("amount_spent", 0)),
-            "imp":      int(r.get("impressions", 0)),
-            "reach":    int(r.get("reach", 0)),
-            "clicks":   int(r.get("clicks", 0)),
-            "ctr":      float(r.get("ctr", 0)),
-            "cpc":      float(r.get("cpc", 0)),
-            "cpm":      float(r.get("cpm", 0)),
-            "freq":     float(r.get("frequency", 0)),
-            "leads":    int(r.get("lead", 0)),
-            "thruplay": int(r.get("video_thruplay_watched_actions", 0)),
-            "views25":  int(r.get("video_p25_watched_actions", 0)),
-            "views100": int(r.get("video_p100_watched_actions", 0)),
-        }
-    if d and not d.get("data"):
-        print(f"    ℹ No data returned for this period (account may have no spend)")
+        result = parse_summary(r)
+        return result
+    if d is not None and not d.get("data"):
+        print(f"    ℹ No spend data for this period")
     return {}
 
 def fetch_platforms(acc_id, since, until):
     d = api_get(f"/act_{acc_id}/insights", {
-        "fields": "amount_spent,impressions,reach,clicks,ctr,cpc,lead",
+        "fields": "spend,impressions,reach,clicks,ctr,cpc,lead",
         "breakdowns": "publisher_platform",
         "time_range": json.dumps({"since": since, "until": until}),
         "limit": 10,
@@ -99,20 +114,21 @@ def fetch_platforms(acc_id, since, until):
         for row in d["data"]:
             p = row.get("publisher_platform", "unknown")
             result[p] = {
-                "spend":  float(row.get("amount_spent", 0)),
-                "imp":    int(row.get("impressions", 0)),
-                "reach":  int(row.get("reach", 0)),
-                "clicks": int(row.get("clicks", 0)),
-                "ctr":    float(row.get("ctr", 0)),
-                "cpc":    float(row.get("cpc", 0)),
-                "leads":  int(row.get("lead", 0)),
+                "spend":  safe_float(row.get("spend", 0)),
+                "imp":    safe_int(row.get("impressions", 0)),
+                "reach":  safe_int(row.get("reach", 0)),
+                "clicks": safe_int(row.get("clicks", 0)),
+                "ctr":    safe_float(row.get("ctr", 0)),
+                "cpc":    safe_float(row.get("cpc", 0)),
+                "leads":  safe_int(row.get("lead", 0)),
             }
         return result
     return {}
 
 def fetch_ads(acc_id, since, until, limit=10):
+    # No sort param — fetch top by spend using default ordering
     fields = (
-        "name,amount_spent,impressions,reach,clicks,ctr,cpc,frequency,lead,"
+        "name,spend,impressions,reach,clicks,ctr,cpc,frequency,lead,"
         "video_thruplay_watched_actions,video_p25_watched_actions,"
         "video_p100_watched_actions,objective,effective_status"
     )
@@ -120,7 +136,6 @@ def fetch_ads(acc_id, since, until, limit=10):
         "fields": fields,
         "level": "ad",
         "time_range": json.dumps({"since": since, "until": until}),
-        "sort": "amount_spent_descending",
         "limit": limit,
     })
     if d and d.get("data"):
@@ -128,20 +143,22 @@ def fetch_ads(acc_id, since, until, limit=10):
         for a in d["data"]:
             ads.append({
                 "name":     a.get("name", ""),
-                "spend":    float(a.get("amount_spent", 0)),
-                "imp":      int(a.get("impressions", 0)),
-                "reach":    int(a.get("reach", 0)),
-                "clicks":   int(a.get("clicks", 0)),
-                "ctr":      float(a.get("ctr", 0)),
-                "cpc":      float(a.get("cpc", 0)),
-                "freq":     float(a.get("frequency", 0)),
-                "leads":    int(a.get("lead", 0)),
-                "thruplay": int(a.get("video_thruplay_watched_actions", 0)),
-                "views25":  int(a.get("video_p25_watched_actions", 0)),
-                "views100": int(a.get("video_p100_watched_actions", 0)),
+                "spend":    safe_float(a.get("spend", 0)),
+                "imp":      safe_int(a.get("impressions", 0)),
+                "reach":    safe_int(a.get("reach", 0)),
+                "clicks":   safe_int(a.get("clicks", 0)),
+                "ctr":      safe_float(a.get("ctr", 0)),
+                "cpc":      safe_float(a.get("cpc", 0)),
+                "freq":     safe_float(a.get("frequency", 0)),
+                "leads":    safe_int(a.get("lead", 0)),
+                "thruplay": safe_int(a.get("video_thruplay_watched_actions", 0)),
+                "views25":  safe_int(a.get("video_p25_watched_actions", 0)),
+                "views100": safe_int(a.get("video_p100_watched_actions", 0)),
                 "objective":a.get("objective", ""),
                 "status":   a.get("effective_status", ""),
             })
+        # Sort by spend descending in Python
+        ads.sort(key=lambda x: x["spend"], reverse=True)
         return ads
     return []
 
@@ -152,8 +169,7 @@ def main():
     print("=" * 55)
 
     if not TOKEN:
-        print("❌ META_ACCESS_TOKEN secret is empty or not set!")
-        print("   Go to repo Settings → Secrets → add META_ACCESS_TOKEN")
+        print("❌ META_ACCESS_TOKEN is empty — check GitHub Secrets")
         exit(1)
 
     print(f"  Token prefix: {TOKEN[:12]}...")
@@ -187,7 +203,7 @@ def main():
             platforms = fetch_platforms(aid, since, until)
             ads       = fetch_ads(aid, since, until, limit=10)
             if summary:
-                print(f"    → spend: ${round(summary.get('spend',0))} | leads: {summary.get('leads',0)} | imp: {summary.get('imp',0):,}")
+                print(f"    ✓ spend: ${round(summary.get('spend',0)):,} | leads: {summary.get('leads',0)} | imp: {summary.get('imp',0):,}")
             payload["ranges"][rng_key] = {
                 "since": since, "until": until,
                 "summary": summary, "platforms": platforms, "ads": ads,
