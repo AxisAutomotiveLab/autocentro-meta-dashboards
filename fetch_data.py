@@ -31,7 +31,10 @@ RANGES = {
     "last_90d": date_range(90),
 }
 
-# ── core API ───────────────────────────────────────────────────────────────────
+PAGE_TOKENS = {}   # page_id → page_access_token
+PAGE_NAMES  = {}   # page_id → page_name
+
+# ── core ───────────────────────────────────────────────────────────────────────
 
 def api_get(path, params, token=None, retries=2):
     params["access_token"] = token or TOKEN
@@ -42,7 +45,7 @@ def api_get(path, params, token=None, retries=2):
             if "error" in d:
                 err = d["error"]
                 code = err.get("code", 0)
-                print(f"    ⚠ API error [{code}] {err.get('message','?')}")
+                print(f"    ⚠ API error [{code}] {err.get('message','?')[:120]}")
                 if code == 4 and attempt < retries:
                     print(f"    ↻ Rate limit — waiting 15s (attempt {attempt+1})")
                     time.sleep(15); continue
@@ -76,34 +79,22 @@ def extract_video(v):
 
 # ── page tokens ────────────────────────────────────────────────────────────────
 
-PAGE_TOKENS = {}  # page_id → page_access_token
-
 def load_page_tokens():
-    """
-    Exchange the User Access Token for Page Access Tokens.
-    This is required to call /POST_ID/insights (page insights require page token).
-    """
-    print("\n→ Loading Page Access Tokens...")
-    d = api_get("/me/accounts", {"fields": "id,name,access_token"})
+    print("\n→ Loading Page Access Tokens via /me/accounts...")
+    d = api_get("/me/accounts", {"fields":"id,name,access_token", "limit":25})
     if not d or not d.get("data"):
-        print("  ⚠ Could not fetch page tokens — /me/accounts returned empty")
-        print("  ℹ Organic data will be skipped")
+        print("  ⚠ Could not fetch page tokens")
         return False
-
     for page in d["data"]:
-        pid  = page.get("id","")
-        name = page.get("name","")
-        tok  = page.get("access_token","")
+        pid = page.get("id","")
+        tok = page.get("access_token","")
+        nm  = page.get("name","")
         if pid and tok:
             PAGE_TOKENS[pid] = tok
-            print(f"  ✅ Page token loaded: {name} ({pid})")
-
-    if not PAGE_TOKENS:
-        print("  ⚠ No page tokens found")
-        return False
-
+            PAGE_NAMES[pid]  = nm
+            print(f"  ✅ {nm} ({pid})")
     print(f"  ✓ {len(PAGE_TOKENS)} page tokens loaded")
-    return True
+    return len(PAGE_TOKENS) > 0
 
 # ── paid fetchers ──────────────────────────────────────────────────────────────
 
@@ -198,54 +189,37 @@ def fetch_ads(acc_id, since, until, limit=75):
         return ads
     return []
 
-# ── organic fetchers ───────────────────────────────────────────────────────────
+# ── organic via /me/feed filtered by page ─────────────────────────────────────
 
-def fetch_post_insights(post_id, page_token):
-    """Fetch real impressions/engagement for a single post using Page Token."""
-    d = api_get(f"/{post_id}/insights", {
-        "metric": "post_impressions,post_impressions_organic,"
-                  "post_impressions_paid,post_engaged_users,post_video_views",
-        "period": "lifetime",
-    }, token=page_token)
-    if d and d.get("data"):
-        metrics = {}
-        for m in d["data"]:
-            val = m.get("values",[{}])
-            # lifetime metric returns single value dict
-            metrics[m["name"]] = safe_int(
-                val[-1].get("value",0) if val else 0
-            )
-        return {
-            "impressions":         metrics.get("post_impressions",0),
-            "impressions_organic": metrics.get("post_impressions_organic",0),
-            "impressions_paid":    metrics.get("post_impressions_paid",0),
-            "engaged_users":       metrics.get("post_engaged_users",0),
-            "video_views":         metrics.get("post_video_views",0),
-        }
-    return {"impressions":0,"impressions_organic":0,"impressions_paid":0,
-            "engaged_users":0,"video_views":0}
-
-def fetch_organic_posts(page_id, since, until, page_token, limit=25):
-    """Fetch page posts with real view metrics using Page Access Token."""
+def fetch_organic_posts(page_id, page_token, since, until, limit=25):
+    """
+    Fetch posts from a specific page using the Page Access Token + /PAGE_ID/feed.
+    Using page token with /PAGE_ID/feed works without Page Public Content Access.
+    Falls back to basic metrics if insights endpoint is restricted.
+    """
     fields = ("id,message,story,created_time,full_picture,permalink_url,"
               "shares,likes.summary(true),comments.summary(true),"
-              "attachments{media_type,type}")
-    d = api_get(f"/{page_id}/posts", {
+              "attachments{media_type,type},insights.metric("
+              "post_impressions,post_impressions_organic,"
+              "post_impressions_paid,post_engaged_users,post_video_views)"
+              "{name,values}")
+
+    d = api_get(f"/{page_id}/feed", {
         "fields": fields,
-        "since": since,
-        "until": until,
-        "limit": limit,
+        "since":  since,
+        "until":  until,
+        "limit":  limit,
     }, token=page_token)
 
     if not d or not d.get("data"):
-        print(f"    ℹ No posts found for page {page_id}")
+        print(f"    ℹ No posts found")
         return []
 
     posts_raw = d["data"]
-    print(f"    → {len(posts_raw)} posts found, fetching insights...")
+    print(f"    → {len(posts_raw)} posts found")
 
     posts = []
-    for i, p in enumerate(posts_raw):
+    for p in posts_raw:
         post_id  = p.get("id","")
         likes    = safe_int(p.get("likes",{}).get("summary",{}).get("total_count",0))
         comments = safe_int(p.get("comments",{}).get("summary",{}).get("total_count",0))
@@ -253,7 +227,13 @@ def fetch_organic_posts(page_id, since, until, page_token, limit=25):
         attach   = p.get("attachments",{}).get("data",[{}])
         mtype    = attach[0].get("media_type", attach[0].get("type","photo")) if attach else "photo"
         caption  = p.get("message", p.get("story",""))[:120]
-        insights = fetch_post_insights(post_id, page_token)
+
+        # Parse inline insights (fetched together to avoid extra API calls)
+        ins_data = p.get("insights",{}).get("data",[])
+        ins = {}
+        for m in ins_data:
+            vals = m.get("values",[])
+            ins[m["name"]] = safe_int(vals[-1].get("value",0) if vals else 0)
 
         posts.append({
             "id":                  post_id,
@@ -265,16 +245,15 @@ def fetch_organic_posts(page_id, since, until, page_token, limit=25):
             "likes":               likes,
             "comments":            comments,
             "shares":              shares,
-            "impressions":         insights["impressions"],
-            "impressions_organic": insights["impressions_organic"],
-            "impressions_paid":    insights["impressions_paid"],
-            "engaged_users":       insights["engaged_users"],
-            "video_views":         insights["video_views"],
+            "impressions":         ins.get("post_impressions", 0),
+            "impressions_organic": ins.get("post_impressions_organic", 0),
+            "impressions_paid":    ins.get("post_impressions_paid", 0),
+            "engaged_users":       ins.get("post_engaged_users", 0),
+            "video_views":         ins.get("post_video_views", 0),
         })
-        if i > 0 and i % 5 == 0:
-            time.sleep(1)
 
     posts.sort(key=lambda x: x["impressions"], reverse=True)
+    print(f"    ✓ {len(posts)} posts processed")
     return posts[:10]
 
 # ── main ───────────────────────────────────────────────────────────────────────
@@ -287,17 +266,14 @@ def main():
 
     if not TOKEN:
         print("❌ META_ACCESS_TOKEN is empty"); exit(1)
-
     print(f"  Token prefix: {TOKEN[:12]}...")
 
-    # Verify token
     d = api_get("/me", {"fields":"id,name"})
     if not d:
-        print("❌ Token verification failed"); exit(1)
+        print("❌ Token invalid"); exit(1)
     print(f"  ✅ Token valid — user: {d.get('name', d.get('id','?'))}")
 
-    # Load page tokens (needed for organic insights)
-    has_page_tokens = load_page_tokens()
+    load_page_tokens()
 
     os.makedirs("data", exist_ok=True)
     fetched_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
@@ -311,7 +287,7 @@ def main():
         print(f"\n{'='*60}")
         print(f"→ {name}")
         print(f"  Ad Account: act_{aid} | Page: {pid}")
-        print(f"  Page token: {'✅ available' if page_token else '⚠ not found — organic will be empty'}")
+        print(f"  Page token: {'✅ available' if page_token else '⚠ not found'}")
 
         payload = {
             "meta": {
@@ -327,7 +303,7 @@ def main():
             "organic": {},
         }
 
-        # Paid ranges
+        # ── Paid ───────────────────────────────────────────────
         for rk, (since, until) in RANGES.items():
             print(f"\n  [PAID] {rk} ({since} → {until})")
             summary   = fetch_summary(aid, since, until)
@@ -341,15 +317,14 @@ def main():
             }
             time.sleep(0.5)
 
-        # Organic ranges (only if page token available)
+        # ── Organic via /PAGE_ID/feed + inline insights ────────
         for rk, (since, until) in RANGES.items():
             print(f"\n  [ORGANIC] {rk} ({since} → {until})")
             if page_token:
-                posts = fetch_organic_posts(pid, since, until, page_token, limit=25)
-                print(f"    ✓ {len(posts)} posts with insights")
+                posts = fetch_organic_posts(pid, page_token, since, until, limit=25)
             else:
                 posts = []
-                print(f"    ⚠ Skipped — no page token for {pid}")
+                print(f"    ⚠ No page token available")
             payload["organic"][rk] = {"since":since,"until":until,"posts":posts}
             time.sleep(1)
 
