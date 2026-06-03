@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 fetch_data.py — Autocentro PR Meta Ads fetcher
-Runs via GitHub Actions every 24h. Token stored in GitHub Secrets as META_ACCESS_TOKEN.
+Runs via GitHub Actions every 24h. Token in GitHub Secrets as META_ACCESS_TOKEN.
 """
 
 import os
@@ -63,11 +63,41 @@ def safe_float(v):
     try: return float(str(v).replace(',', ''))
     except: return 0.0
 
+def extract_action(actions_list, action_type):
+    """
+    Meta API returns actions as: [{"action_type": "lead", "value": "42"}, ...]
+    This extracts the value for a specific action_type.
+    """
+    if not actions_list or not isinstance(actions_list, list):
+        return 0
+    for item in actions_list:
+        if item.get("action_type") == action_type:
+            return safe_int(item.get("value", 0))
+    return 0
+
+def extract_video(video_list):
+    """
+    Video metrics like video_thruplay_watched_actions come as:
+    [{"action_type": "video_thruplay_watched_actions", "value": "500"}]
+    or just a plain integer/string in some API versions.
+    """
+    if not video_list:
+        return 0
+    if isinstance(video_list, (int, float, str)):
+        return safe_int(video_list)
+    if isinstance(video_list, list) and len(video_list) > 0:
+        return safe_int(video_list[0].get("value", 0))
+    return 0
+
 def fetch_summary(acc_id, since, until):
-    """Account-level summary — only metrics valid at account level."""
+    """
+    Account-level summary.
+    leads come from actions array: action_type='lead' or 'onsite_conversion.lead_grouped'
+    video comes from video_thruplay_watched_actions (can be list or int)
+    """
     fields = (
-        "spend,impressions,reach,clicks,ctr,cpc,cpm,frequency,lead,"
-        "video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
+        "spend,impressions,reach,clicks,ctr,cpc,cpm,frequency,"
+        "actions,video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
     )
     d = api_get(f"/act_{acc_id}/insights", {
         "fields": fields,
@@ -76,7 +106,21 @@ def fetch_summary(acc_id, since, until):
     })
     if d and d.get("data"):
         r = d["data"][0]
-        return {
+        actions = r.get("actions", [])
+
+        # Leads: try multiple action types Meta uses for leads
+        leads = (
+            extract_action(actions, "lead") or
+            extract_action(actions, "onsite_conversion.lead_grouped") or
+            extract_action(actions, "leadgen.other") or
+            safe_int(r.get("lead", 0))
+        )
+
+        thruplay = extract_video(r.get("video_thruplay_watched_actions"))
+        views25  = extract_video(r.get("video_p25_watched_actions"))
+        views100 = extract_video(r.get("video_p100_watched_actions"))
+
+        result = {
             "spend":    safe_float(r.get("spend", 0)),
             "imp":      safe_int(r.get("impressions", 0)),
             "reach":    safe_int(r.get("reach", 0)),
@@ -85,17 +129,23 @@ def fetch_summary(acc_id, since, until):
             "cpc":      safe_float(r.get("cpc", 0)),
             "cpm":      safe_float(r.get("cpm", 0)),
             "freq":     safe_float(r.get("frequency", 0)),
-            "leads":    safe_int(r.get("lead", 0)),
-            "thruplay": safe_int(r.get("video_thruplay_watched_actions", 0)),
-            "views25":  safe_int(r.get("video_p25_watched_actions", 0)),
-            "views100": safe_int(r.get("video_p100_watched_actions", 0)),
+            "leads":    leads,
+            "thruplay": thruplay,
+            "views25":  views25,
+            "views100": views100,
         }
+
+        # Debug: show raw actions so we can see what action types exist
+        if actions:
+            action_types = [a.get("action_type") for a in actions]
+            print(f"    ℹ action_types available: {action_types}")
+
+        return result
     return {}
 
 def fetch_platforms(acc_id, since, until):
-    """Breakdown by publisher platform."""
     d = api_get(f"/act_{acc_id}/insights", {
-        "fields": "spend,impressions,reach,clicks,ctr,cpc,lead",
+        "fields": "spend,impressions,reach,clicks,ctr,cpc,actions",
         "breakdowns": "publisher_platform",
         "time_range": json.dumps({"since": since, "until": until}),
         "limit": 10,
@@ -104,6 +154,12 @@ def fetch_platforms(acc_id, since, until):
         result = {}
         for row in d["data"]:
             p = row.get("publisher_platform", "unknown")
+            actions = row.get("actions", [])
+            leads = (
+                extract_action(actions, "lead") or
+                extract_action(actions, "onsite_conversion.lead_grouped") or
+                extract_action(actions, "leadgen.other")
+            )
             result[p] = {
                 "spend":  safe_float(row.get("spend", 0)),
                 "imp":    safe_int(row.get("impressions", 0)),
@@ -111,16 +167,15 @@ def fetch_platforms(acc_id, since, until):
                 "clicks": safe_int(row.get("clicks", 0)),
                 "ctr":    safe_float(row.get("ctr", 0)),
                 "cpc":    safe_float(row.get("cpc", 0)),
-                "leads":  safe_int(row.get("lead", 0)),
+                "leads":  leads,
             }
         return result
     return {}
 
 def fetch_ads(acc_id, since, until, limit=10):
-    """Ad-level insights — name and effective_status are valid here."""
     fields = (
-        "ad_name,spend,impressions,reach,clicks,ctr,cpc,frequency,lead,"
-        "video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
+        "ad_name,spend,impressions,reach,clicks,ctr,cpc,frequency,"
+        "actions,video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
     )
     d = api_get(f"/act_{acc_id}/insights", {
         "fields": fields,
@@ -131,6 +186,16 @@ def fetch_ads(acc_id, since, until, limit=10):
     if d and d.get("data"):
         ads = []
         for a in d["data"]:
+            actions = a.get("actions", [])
+            leads = (
+                extract_action(actions, "lead") or
+                extract_action(actions, "onsite_conversion.lead_grouped") or
+                extract_action(actions, "leadgen.other")
+            )
+            thruplay = extract_video(a.get("video_thruplay_watched_actions"))
+            views25  = extract_video(a.get("video_p25_watched_actions"))
+            views100 = extract_video(a.get("video_p100_watched_actions"))
+
             ads.append({
                 "name":     a.get("ad_name", a.get("name", "")),
                 "spend":    safe_float(a.get("spend", 0)),
@@ -140,10 +205,10 @@ def fetch_ads(acc_id, since, until, limit=10):
                 "ctr":      safe_float(a.get("ctr", 0)),
                 "cpc":      safe_float(a.get("cpc", 0)),
                 "freq":     safe_float(a.get("frequency", 0)),
-                "leads":    safe_int(a.get("lead", 0)),
-                "thruplay": safe_int(a.get("video_thruplay_watched_actions", 0)),
-                "views25":  safe_int(a.get("video_p25_watched_actions", 0)),
-                "views100": safe_int(a.get("video_p100_watched_actions", 0)),
+                "leads":    leads,
+                "thruplay": thruplay,
+                "views25":  views25,
+                "views100": views100,
             })
         ads.sort(key=lambda x: x["spend"], reverse=True)
         return ads
@@ -189,7 +254,7 @@ def main():
             platforms = fetch_platforms(aid, since, until)
             ads       = fetch_ads(aid, since, until, limit=10)
             if summary:
-                print(f"    ✓ spend: ${round(summary.get('spend',0)):,} | leads: {summary.get('leads',0)} | imp: {summary.get('imp',0):,}")
+                print(f"    ✓ spend: ${round(summary.get('spend',0)):,} | leads: {summary.get('leads',0)} | thruplay: {summary.get('thruplay',0):,}")
             payload["ranges"][rng_key] = {
                 "since": since, "until": until,
                 "summary": summary, "platforms": platforms, "ads": ads,
