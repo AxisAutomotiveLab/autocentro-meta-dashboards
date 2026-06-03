@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """
-fetch_data.py — Autocentro PR Meta Ads fetcher
+fetch_data.py — Autocentro PR Meta Ads + Organic fetcher
 Runs via GitHub Actions every 24h. Token in GitHub Secrets as META_ACCESS_TOKEN.
+Permissions needed: ads_read, ads_management, business_management,
+                    pages_read_engagement, pages_show_list
 """
 
 import os
 import json
+import time
 import requests
 from datetime import datetime, timedelta, timezone
 
@@ -13,11 +16,41 @@ TOKEN = os.environ.get("META_ACCESS_TOKEN", "").strip()
 API = "https://graph.facebook.com/v21.0"
 
 DEALERS = [
-    {"key": "nissan",   "id": "407938286956756",  "name": "Autocentro Nissan",              "color": "#C3002F"},
-    {"key": "chrysler", "id": "766659464282943",  "name": "Autocentro Chrysler Dodge Jeep", "color": "#1877F2"},
-    {"key": "mas",      "id": "850818032362895",  "name": "Autocentro Mas",                 "color": "#f59e0b"},
-    {"key": "guaynabo", "id": "1186750509063901", "name": "Autocentro Más Guaynabo",        "color": "#22c55e"},
-    {"key": "toyota",   "id": "277757027036799",  "name": "Autocentro Toyota",              "color": "#EB0A1E"},
+    {
+        "key": "nissan",
+        "ad_id": "407938286956756",
+        "page_id": "734231516710477",
+        "name": "Autocentro Nissan",
+        "color": "#C3002F"
+    },
+    {
+        "key": "chrysler",
+        "ad_id": "766659464282943",
+        "page_id": "267711843253862",
+        "name": "Autocentro Chrysler Dodge Jeep",
+        "color": "#1877F2"
+    },
+    {
+        "key": "mas",
+        "ad_id": "850818032362895",
+        "page_id": "457461994795559",
+        "name": "Autocentro Mas",
+        "color": "#f59e0b"
+    },
+    {
+        "key": "guaynabo",
+        "ad_id": "1186750509063901",
+        "page_id": "371177979415117",
+        "name": "Autocentro Más Guaynabo",
+        "color": "#22c55e"
+    },
+    {
+        "key": "toyota",
+        "ad_id": "277757027036799",
+        "page_id": "108458989181126",
+        "name": "Autocentro Toyota",
+        "color": "#EB0A1E"
+    },
 ]
 
 def date_range(days_back):
@@ -32,19 +65,29 @@ RANGES = {
     "last_90d": date_range(90),
 }
 
-def api_get(path, params):
+# ── helpers ────────────────────────────────────────────────────────────────────
+
+def api_get(path, params, retries=2):
     params["access_token"] = TOKEN
-    try:
-        r = requests.get(f"{API}{path}", params=params, timeout=30)
-        data = r.json()
-        if "error" in data:
-            err = data["error"]
-            print(f"    ⚠ API error [{err.get('code','?')}] {err.get('message','?')}")
-            return None
-        return data
-    except Exception as e:
-        print(f"    ⚠ Request failed: {e}")
-        return None
+    for attempt in range(retries + 1):
+        try:
+            r = requests.get(f"{API}{path}", params=params, timeout=30)
+            data = r.json()
+            if "error" in data:
+                err = data["error"]
+                code = err.get("code", 0)
+                print(f"    ⚠ API error [{code}] {err.get('message','?')}")
+                if code == 4 and attempt < retries:
+                    print(f"    ↻ Rate limit — waiting 15s (attempt {attempt+1})")
+                    time.sleep(15)
+                    continue
+                return None
+            return data
+        except Exception as e:
+            print(f"    ⚠ Request failed: {e}")
+            if attempt < retries:
+                time.sleep(5)
+    return None
 
 def verify_token():
     print("→ Verifying token...")
@@ -63,38 +106,23 @@ def safe_float(v):
     try: return float(str(v).replace(',', ''))
     except: return 0.0
 
-def extract_action(actions_list, action_type):
-    """
-    Meta API returns actions as: [{"action_type": "lead", "value": "42"}, ...]
-    This extracts the value for a specific action_type.
-    """
+def extract_action(actions_list, *action_types):
     if not actions_list or not isinstance(actions_list, list):
         return 0
     for item in actions_list:
-        if item.get("action_type") == action_type:
+        if item.get("action_type") in action_types:
             return safe_int(item.get("value", 0))
     return 0
 
-def extract_video(video_list):
-    """
-    Video metrics like video_thruplay_watched_actions come as:
-    [{"action_type": "video_thruplay_watched_actions", "value": "500"}]
-    or just a plain integer/string in some API versions.
-    """
-    if not video_list:
-        return 0
-    if isinstance(video_list, (int, float, str)):
-        return safe_int(video_list)
-    if isinstance(video_list, list) and len(video_list) > 0:
-        return safe_int(video_list[0].get("value", 0))
+def extract_video(v):
+    if not v: return 0
+    if isinstance(v, (int, float, str)): return safe_int(v)
+    if isinstance(v, list) and v: return safe_int(v[0].get("value", 0))
     return 0
 
+# ── paid ads fetchers ──────────────────────────────────────────────────────────
+
 def fetch_summary(acc_id, since, until):
-    """
-    Account-level summary.
-    leads come from actions array: action_type='lead' or 'onsite_conversion.lead_grouped'
-    video comes from video_thruplay_watched_actions (can be list or int)
-    """
     fields = (
         "spend,impressions,reach,clicks,ctr,cpc,cpm,frequency,"
         "actions,video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
@@ -107,20 +135,10 @@ def fetch_summary(acc_id, since, until):
     if d and d.get("data"):
         r = d["data"][0]
         actions = r.get("actions", [])
-
-        # Leads: try multiple action types Meta uses for leads
-        leads = (
-            extract_action(actions, "lead") or
-            extract_action(actions, "onsite_conversion.lead_grouped") or
-            extract_action(actions, "leadgen.other") or
-            safe_int(r.get("lead", 0))
-        )
-
-        thruplay = extract_video(r.get("video_thruplay_watched_actions"))
-        views25  = extract_video(r.get("video_p25_watched_actions"))
-        views100 = extract_video(r.get("video_p100_watched_actions"))
-
-        result = {
+        leads = extract_action(actions,
+            "lead", "onsite_conversion.lead_grouped", "leadgen.other",
+            "onsite_conversion.total_messaging_connection")
+        return {
             "spend":    safe_float(r.get("spend", 0)),
             "imp":      safe_int(r.get("impressions", 0)),
             "reach":    safe_int(r.get("reach", 0)),
@@ -130,17 +148,10 @@ def fetch_summary(acc_id, since, until):
             "cpm":      safe_float(r.get("cpm", 0)),
             "freq":     safe_float(r.get("frequency", 0)),
             "leads":    leads,
-            "thruplay": thruplay,
-            "views25":  views25,
-            "views100": views100,
+            "thruplay": extract_video(r.get("video_thruplay_watched_actions")),
+            "views25":  extract_video(r.get("video_p25_watched_actions")),
+            "views100": extract_video(r.get("video_p100_watched_actions")),
         }
-
-        # Debug: show raw actions so we can see what action types exist
-        if actions:
-            action_types = [a.get("action_type") for a in actions]
-            print(f"    ℹ action_types available: {action_types}")
-
-        return result
     return {}
 
 def fetch_platforms(acc_id, since, until):
@@ -155,11 +166,8 @@ def fetch_platforms(acc_id, since, until):
         for row in d["data"]:
             p = row.get("publisher_platform", "unknown")
             actions = row.get("actions", [])
-            leads = (
-                extract_action(actions, "lead") or
-                extract_action(actions, "onsite_conversion.lead_grouped") or
-                extract_action(actions, "leadgen.other")
-            )
+            leads = extract_action(actions,
+                "lead", "onsite_conversion.lead_grouped", "leadgen.other")
             result[p] = {
                 "spend":  safe_float(row.get("spend", 0)),
                 "imp":    safe_int(row.get("impressions", 0)),
@@ -172,7 +180,7 @@ def fetch_platforms(acc_id, since, until):
         return result
     return {}
 
-def fetch_ads(acc_id, since, until, limit=10):
+def fetch_ads(acc_id, since, until, limit=75):
     fields = (
         "ad_name,spend,impressions,reach,clicks,ctr,cpc,frequency,"
         "actions,video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
@@ -187,15 +195,8 @@ def fetch_ads(acc_id, since, until, limit=10):
         ads = []
         for a in d["data"]:
             actions = a.get("actions", [])
-            leads = (
-                extract_action(actions, "lead") or
-                extract_action(actions, "onsite_conversion.lead_grouped") or
-                extract_action(actions, "leadgen.other")
-            )
-            thruplay = extract_video(a.get("video_thruplay_watched_actions"))
-            views25  = extract_video(a.get("video_p25_watched_actions"))
-            views100 = extract_video(a.get("video_p100_watched_actions"))
-
+            leads = extract_action(actions,
+                "lead", "onsite_conversion.lead_grouped", "leadgen.other")
             ads.append({
                 "name":     a.get("ad_name", a.get("name", "")),
                 "spend":    safe_float(a.get("spend", 0)),
@@ -206,19 +207,104 @@ def fetch_ads(acc_id, since, until, limit=10):
                 "cpc":      safe_float(a.get("cpc", 0)),
                 "freq":     safe_float(a.get("frequency", 0)),
                 "leads":    leads,
-                "thruplay": thruplay,
-                "views25":  views25,
-                "views100": views100,
+                "thruplay": extract_video(a.get("video_thruplay_watched_actions")),
+                "views25":  extract_video(a.get("video_p25_watched_actions")),
+                "views100": extract_video(a.get("video_p100_watched_actions")),
             })
         ads.sort(key=lambda x: x["spend"], reverse=True)
         return ads
     return []
 
+# ── organic fetchers ───────────────────────────────────────────────────────────
+
+def fetch_post_views(post_id):
+    """Fetch real view count for a single post via post insights."""
+    d = api_get(f"/{post_id}/insights", {
+        "metric": "post_impressions,post_impressions_organic,post_impressions_paid,post_engaged_users,post_video_views",
+        "period": "lifetime",
+    })
+    if d and d.get("data"):
+        metrics = {}
+        for m in d["data"]:
+            metrics[m["name"]] = m.get("values", [{}])[-1].get("value", 0)
+        return {
+            "impressions":          safe_int(metrics.get("post_impressions", 0)),
+            "impressions_organic":  safe_int(metrics.get("post_impressions_organic", 0)),
+            "impressions_paid":     safe_int(metrics.get("post_impressions_paid", 0)),
+            "engaged_users":        safe_int(metrics.get("post_engaged_users", 0)),
+            "video_views":          safe_int(metrics.get("post_video_views", 0)),
+        }
+    return {"impressions": 0, "impressions_organic": 0, "impressions_paid": 0,
+            "engaged_users": 0, "video_views": 0}
+
+def fetch_organic_posts(page_id, since, until, limit=25):
+    """Fetch organic posts from a Facebook page with real view metrics."""
+    fields = (
+        "id,message,story,created_time,full_picture,permalink_url,"
+        "shares,likes.summary(true),comments.summary(true),attachments{media_type,type}"
+    )
+    d = api_get(f"/{page_id}/posts", {
+        "fields": fields,
+        "since": since,
+        "until": until,
+        "limit": limit,
+    })
+    if not d or not d.get("data"):
+        print(f"    ℹ No organic posts found for page {page_id}")
+        return []
+
+    posts_raw = d["data"]
+    print(f"    → Found {len(posts_raw)} posts, fetching insights...")
+
+    posts = []
+    for i, p in enumerate(posts_raw):
+        post_id = p.get("id", "")
+        likes    = safe_int(p.get("likes", {}).get("summary", {}).get("total_count", 0))
+        comments = safe_int(p.get("comments", {}).get("summary", {}).get("total_count", 0))
+        shares   = safe_int(p.get("shares", {}).get("count", 0))
+
+        # Get real view metrics per post
+        insights = fetch_post_views(post_id)
+
+        # Determine media type
+        attach = p.get("attachments", {}).get("data", [{}])
+        media_type = attach[0].get("media_type", attach[0].get("type", "photo")) if attach else "photo"
+
+        # Get caption — prefer message over story
+        caption = p.get("message", p.get("story", ""))[:120]
+
+        posts.append({
+            "id":                   post_id,
+            "caption":              caption,
+            "created_time":         p.get("created_time", ""),
+            "permalink":            p.get("permalink_url", ""),
+            "thumbnail":            p.get("full_picture", ""),
+            "media_type":           media_type,
+            "likes":                likes,
+            "comments":             comments,
+            "shares":               shares,
+            "impressions":          insights["impressions"],
+            "impressions_organic":  insights["impressions_organic"],
+            "impressions_paid":     insights["impressions_paid"],
+            "engaged_users":        insights["engaged_users"],
+            "video_views":          insights["video_views"],
+        })
+
+        # Throttle slightly to avoid rate limits
+        if i > 0 and i % 5 == 0:
+            time.sleep(1)
+
+    # Sort by total impressions descending
+    posts.sort(key=lambda x: x["impressions"], reverse=True)
+    return posts[:10]  # Keep top 10 for the JSON
+
+# ── main ───────────────────────────────────────────────────────────────────────
+
 def main():
-    print("=" * 55)
-    print("  Autocentro PR — Meta Ads Data Fetch")
+    print("=" * 60)
+    print("  Autocentro PR — Meta Ads + Organic Data Fetch")
     print(f"  {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
-    print("=" * 55)
+    print("=" * 60)
 
     if not TOKEN:
         print("❌ META_ACCESS_TOKEN is empty — check GitHub Secrets")
@@ -233,39 +319,63 @@ def main():
     today = str(datetime.now(timezone.utc).date())
 
     for dealer in DEALERS:
-        key, aid, name = dealer["key"], dealer["id"], dealer["name"]
-        print(f"\n→ {name} (act_{aid})")
+        key   = dealer["key"]
+        aid   = dealer["ad_id"]
+        pid   = dealer["page_id"]
+        name  = dealer["name"]
+
+        print(f"\n{'='*60}")
+        print(f"→ {name}")
+        print(f"  Ad Account: act_{aid} | Page: {pid}")
 
         payload = {
             "meta": {
                 "dealer_key":  key,
                 "dealer_name": name,
                 "account_id":  aid,
+                "page_id":     pid,
                 "color":       dealer["color"],
                 "fetched_at":  fetched_at,
                 "data_date":   today,
             },
             "ranges": {},
+            "organic": {},
         }
 
+        # ── Paid ads per range ──────────────────────────────────────
         for rng_key, (since, until) in RANGES.items():
-            print(f"  • {rng_key} ({since} → {until})")
+            print(f"\n  [PAID] {rng_key} ({since} → {until})")
             summary   = fetch_summary(aid, since, until)
             platforms = fetch_platforms(aid, since, until)
-            ads       = fetch_ads(aid, since, until, limit=10)
+            ads       = fetch_ads(aid, since, until, limit=75)
             if summary:
-                print(f"    ✓ spend: ${round(summary.get('spend',0)):,} | leads: {summary.get('leads',0)} | thruplay: {summary.get('thruplay',0):,}")
+                print(f"    ✓ spend:${round(summary.get('spend',0)):,} | leads:{summary.get('leads',0)} | thruplay:{summary.get('thruplay',0):,} | ads:{len(ads)}")
             payload["ranges"][rng_key] = {
                 "since": since, "until": until,
                 "summary": summary, "platforms": platforms, "ads": ads,
             }
+            time.sleep(0.5)  # gentle throttle between ranges
 
+        # ── Organic posts per range ─────────────────────────────────
+        for rng_key, (since, until) in RANGES.items():
+            print(f"\n  [ORGANIC] {rng_key} ({since} → {until})")
+            posts = fetch_organic_posts(pid, since, until, limit=25)
+            print(f"    ✓ {len(posts)} posts with insights")
+            payload["organic"][rng_key] = {
+                "since": since, "until": until,
+                "posts": posts,
+            }
+            time.sleep(1)  # gentle throttle between organic ranges
+
+        # ── Save ────────────────────────────────────────────────────
         out = f"data/{key}_data.json"
         with open(out, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
-        print(f"  ✓ Saved {out}")
+        print(f"\n  ✓ Saved {out}")
+        time.sleep(2)  # throttle between dealers
 
-    print("\n✅ All dealers done.")
+    print("\n" + "="*60)
+    print("✅ All dealers done.")
 
 if __name__ == "__main__":
     main()
