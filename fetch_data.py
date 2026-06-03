@@ -55,20 +55,16 @@ def verify_token():
     print("  ❌ Token verification failed")
     return False
 
-def safe_int(v, default=0):
-    try:
-        return int(float(str(v).replace(',', '')))
-    except:
-        return default
+def safe_int(v):
+    try: return int(float(str(v).replace(',', '')))
+    except: return 0
 
-def safe_float(v, default=0.0):
-    try:
-        return float(str(v).replace(',', ''))
-    except:
-        return default
+def safe_float(v):
+    try: return float(str(v).replace(',', ''))
+    except: return 0.0
 
 def fetch_summary(acc_id, since, until):
-    # Account-level fields only (no name/effective_status at account level)
+    """Account-level summary — only metrics valid at account level."""
     fields = (
         "spend,impressions,reach,clicks,ctr,cpc,cpm,frequency,lead,"
         "video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
@@ -94,11 +90,10 @@ def fetch_summary(acc_id, since, until):
             "views25":  safe_int(r.get("video_p25_watched_actions", 0)),
             "views100": safe_int(r.get("video_p100_watched_actions", 0)),
         }
-    if d is not None and not d.get("data"):
-        print(f"    ℹ No spend data for this period")
     return {}
 
 def fetch_platforms(acc_id, since, until):
+    """Breakdown by publisher platform."""
     d = api_get(f"/act_{acc_id}/insights", {
         "fields": "spend,impressions,reach,clicks,ctr,cpc,lead",
         "breakdowns": "publisher_platform",
@@ -122,11 +117,10 @@ def fetch_platforms(acc_id, since, until):
     return {}
 
 def fetch_ads(acc_id, since, until, limit=10):
-    # Ad-level fields — name and effective_status ARE valid here
+    """Ad-level insights — name and effective_status are valid here."""
     fields = (
-        "name,spend,impressions,reach,clicks,ctr,cpc,frequency,lead,"
-        "video_thruplay_watched_actions,video_p25_watched_actions,"
-        "video_p100_watched_actions,objective,effective_status"
+        "ad_name,spend,impressions,reach,clicks,ctr,cpc,frequency,lead,"
+        "video_thruplay_watched_actions,video_p25_watched_actions,video_p100_watched_actions"
     )
     d = api_get(f"/act_{acc_id}/insights", {
         "fields": fields,
@@ -138,7 +132,7 @@ def fetch_ads(acc_id, since, until, limit=10):
         ads = []
         for a in d["data"]:
             ads.append({
-                "name":     a.get("name", ""),
+                "name":     a.get("ad_name", a.get("name", "")),
                 "spend":    safe_float(a.get("spend", 0)),
                 "imp":      safe_int(a.get("impressions", 0)),
                 "reach":    safe_int(a.get("reach", 0)),
@@ -150,8 +144,6 @@ def fetch_ads(acc_id, since, until, limit=10):
                 "thruplay": safe_int(a.get("video_thruplay_watched_actions", 0)),
                 "views25":  safe_int(a.get("video_p25_watched_actions", 0)),
                 "views100": safe_int(a.get("video_p100_watched_actions", 0)),
-                "objective": a.get("objective", ""),
-                "status":    a.get("effective_status", ""),
             })
         ads.sort(key=lambda x: x["spend"], reverse=True)
         return ads
@@ -168,7 +160,6 @@ def main():
         exit(1)
 
     print(f"  Token prefix: {TOKEN[:12]}...")
-
     if not verify_token():
         exit(1)
 
