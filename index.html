@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autocentro PR — Meta Ads Dashboards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.31.0/fonts/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#08090d;color:#eceef2;font-family:'DM Sans',sans-serif;font-size:13px;min-height:100vh;display:flex;flex-direction:column}
+.hdr{background:rgba(8,9,13,.97);border-bottom:1px solid #1e2130;padding:1.2rem 1.5rem;text-align:center}
+.hdr-title{font-size:20px;font-weight:600;letter-spacing:-.03em;margin-bottom:4px}
+.hdr-sub{font-size:12px;color:#6b7280}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:2rem 1.5rem;max-width:1200px;margin:0 auto;flex:1;width:100%}
+.card{background:#0f1116;border:1px solid #1e2130;border-radius:12px;padding:1.4rem;text-decoration:none;color:#eceef2;transition:all .15s;display:flex;flex-direction:column;gap:10px}
+.card:hover{border-color:var(--c);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.card-logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
+.card-name{font-size:15px;font-weight:600;letter-spacing:-.01em}
+.card-id{font-size:10px;font-family:'DM Mono',monospace;color:#4b5563;margin-top:1px}
+.card-kpis{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.card-kpi{display:flex;justify-content:space-between;font-size:11px;color:#6b7280}
+.card-kpi strong{color:#eceef2;font-family:'DM Mono',monospace;font-weight:500}
+.card-btn{margin-top:auto;background:var(--c);color:#fff;border:none;border-radius:7px;padding:8px 14px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;text-align:center;display:block;text-decoration:none;transition:opacity .12s}
+.card-btn:hover{opacity:.85}
+.status{font-size:10px;color:#6b7280;padding:2px 8px;border-radius:20px;border:1px solid #2a2d38;display:inline-flex;align-items:center;gap:4px}
+.s-ok{color:#4ade80;border-color:#1a4020;background:#0a1f10}
+.s-pending{color:#f59e0b;border-color:#4d3210;background:#1a130a}
+.ldot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.footer{border-top:1px solid #1e2130;padding:.75rem 1.5rem;text-align:center;font-size:10px;color:#3d4149}
+.sk{background:linear-gradient(90deg,#161820 25%,#1e2130 50%,#161820 75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:3px;height:12px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media(max-width:600px){.grid{padding:1rem .75rem;grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-title">Autocentro PR — Meta Ads Dashboards</div>
+  <div class="hdr-sub">5 dealers · Auto-actualiza cada 24h vía GitHub Actions · sin token requerido</div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<footer class="footer">
+  Autocentro PR · GitHub Actions + Meta Marketing API · Última sync: <span id="lu">cargando...</span>
+</footer>
+
+<script>
+var DEALERS = [
+  {key:'nissan',   name:'Autocentro Nissan',           letter:'N', color:'#C3002F', file:'data/nissan_data.json',   html:'nissan.html'},
+  {key:'chrysler', name:'Autocentro Chrysler',         letter:'C', color:'#1877F2', file:'data/chrysler_data.json', html:'chrysler.html'},
+  {key:'mas',      name:'Autocentro Mas',              letter:'M', color:'#f59e0b', file:'data/mas_data.json',      html:'mas.html'},
+  {key:'guaynabo', name:'Autocentro Más Guaynabo',     letter:'G', color:'#22c55e', file:'data/guaynabo_data.json', html:'guaynabo.html'},
+  {key:'toyota',   name:'Autocentro Toyota',           letter:'T', color:'#EB0A1E', file:'data/toyota_data.json',   html:'toyota.html'},
+];
+
+function fDK(n){ return '$'+Math.round(parseFloat(n)||0).toLocaleString('es-PR'); }
+function fN(n){ return Math.round(parseFloat(n)||0).toLocaleString('es-PR'); }
+
+var grid = document.getElementById('grid');
+
+// render skeleton cards first
+DEALERS.forEach(function(d){
+  var card = document.createElement('div');
+  card.className = 'card';
+  card.style.setProperty('--c', d.color);
+  card.innerHTML =
+    '<div style="display:flex;align-items:center;gap:10px">'
+      +'<div class="card-logo" style="background:'+d.color+'">'+d.letter+'</div>'
+      +'<div><div class="card-name">'+d.name+'</div><div class="card-id" id="id-'+d.key+'">Cargando...</div></div>'
+    +'</div>'
+    +'<div class="card-kpis" id="kpis-'+d.key+'">'
+      +'<div class="sk" style="width:80%"></div>'
+      +'<div class="sk" style="width:60%;margin-top:5px"></div>'
+      +'<div class="sk" style="width:70%;margin-top:5px"></div>'
+    +'</div>'
+    +'<a href="'+d.html+'" class="card-btn" style="background:'+d.color+'">Ver Dashboard →</a>';
+  grid.appendChild(card);
+
+  // fetch data
+  fetch(d.file+'?t='+Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var meta = data.meta || {};
+      var rng = (data.ranges && data.ranges['last_30d']) || {};
+      var s = rng.summary || {};
+      var cpl = s.leads>0 ? (s.spend/s.leads).toFixed(2) : '—';
+
+      document.getElementById('id-'+d.key).textContent = 'act_'+meta.account_id+' · '+meta.fetched_at;
+
+      var kpisEl = document.getElementById('kpis-'+d.key);
+      kpisEl.innerHTML =
+        kpiRow('Gasto 30d', fDK(s.spend)) +
+        kpiRow('Leads', fN(s.leads)) +
+        kpiRow('CPL', cpl !== '—' ? '$'+parseFloat(cpl).toFixed(2) : '—') +
+        kpiRow('Frecuencia', (s.freq||0).toFixed(2)+'x') +
+        kpiRow('CTR', (s.ctr||0).toFixed(2)+'%');
+
+      document.getElementById('lu').textContent = meta.fetched_at || '—';
+    })
+    .catch(function(){
+      document.getElementById('id-'+d.key).textContent = 'Sin datos — corre el GitHub Action primero';
+    });
+});
+
+function kpiRow(lbl, val){
+  return '<div class="card-kpi"><span>'+lbl+'</span><strong>'+val+'</strong></div>';
+}
+</script>
+</body>
+</html>
