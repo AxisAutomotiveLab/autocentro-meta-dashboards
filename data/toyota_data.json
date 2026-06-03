@@ -4,36 +4,335 @@
     "dealer_name": "Autocentro Toyota",
     "account_id": "277757027036799",
     "color": "#EB0A1E",
-    "fetched_at": "2026-06-03 19:00 UTC",
+    "fetched_at": "2026-06-03 19:05 UTC",
     "data_date": "2026-06-03"
   },
   "ranges": {
     "last_7d": {
       "since": "2026-05-28",
       "until": "2026-06-03",
-      "summary": {},
-      "platforms": {},
+      "summary": {
+        "spend": 8201.91,
+        "imp": 6031893,
+        "reach": 1227275,
+        "clicks": 50859,
+        "ctr": 0.843168,
+        "cpc": 0.161268,
+        "cpm": 1.359757,
+        "freq": 4.914867,
+        "leads": 0,
+        "thruplay": 0,
+        "views25": 0,
+        "views100": 0
+      },
+      "platforms": {
+        "audience_network": {
+          "spend": 1163.162931,
+          "imp": 425580,
+          "reach": 95496,
+          "clicks": 2461,
+          "ctr": 0.57827,
+          "cpc": 0.472638,
+          "leads": 0
+        },
+        "facebook": {
+          "spend": 5075.051412,
+          "imp": 3912760,
+          "reach": 929403,
+          "clicks": 42400,
+          "ctr": 1.083634,
+          "cpc": 0.119695,
+          "leads": 0
+        },
+        "instagram": {
+          "spend": 1963.585566,
+          "imp": 1693416,
+          "reach": 452121,
+          "clicks": 5994,
+          "ctr": 0.353959,
+          "cpc": 0.327592,
+          "leads": 0
+        },
+        "messenger": {
+          "spend": 0.020017,
+          "imp": 82,
+          "reach": 81,
+          "clicks": 1,
+          "ctr": 1.219512,
+          "cpc": 0.020017,
+          "leads": 0
+        },
+        "threads": {
+          "spend": 0.080066,
+          "imp": 54,
+          "reach": 50,
+          "clicks": 3,
+          "ctr": 5.555556,
+          "cpc": 0.026689,
+          "leads": 0
+        },
+        "whatsapp": {
+          "spend": 0.010008,
+          "imp": 1,
+          "reach": 1,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        }
+      },
       "ads": []
     },
     "last_14d": {
       "since": "2026-05-21",
       "until": "2026-06-03",
-      "summary": {},
-      "platforms": {},
+      "summary": {
+        "spend": 16153.93,
+        "imp": 11405089,
+        "reach": 1461133,
+        "clicks": 93336,
+        "ctr": 0.818372,
+        "cpc": 0.173073,
+        "cpm": 1.416379,
+        "freq": 7.805647,
+        "leads": 0,
+        "thruplay": 0,
+        "views25": 0,
+        "views100": 0
+      },
+      "platforms": {
+        "audience_network": {
+          "spend": 1805.575706,
+          "imp": 831264,
+          "reach": 140117,
+          "clicks": 4905,
+          "ctr": 0.590065,
+          "cpc": 0.368109,
+          "leads": 0
+        },
+        "facebook": {
+          "spend": 10570.021059,
+          "imp": 7433823,
+          "reach": 1135680,
+          "clicks": 79099,
+          "ctr": 1.064042,
+          "cpc": 0.13363,
+          "leads": 0
+        },
+        "instagram": {
+          "spend": 3778.213184,
+          "imp": 3139814,
+          "reach": 532051,
+          "clicks": 9328,
+          "ctr": 0.297088,
+          "cpc": 0.40504,
+          "leads": 0
+        },
+        "messenger": {
+          "spend": 0.030013,
+          "imp": 131,
+          "reach": 124,
+          "clicks": 1,
+          "ctr": 0.763359,
+          "cpc": 0.030013,
+          "leads": 0
+        },
+        "threads": {
+          "spend": 0.080034,
+          "imp": 55,
+          "reach": 51,
+          "clicks": 3,
+          "ctr": 5.454545,
+          "cpc": 0.026678,
+          "leads": 0
+        },
+        "unknown": {
+          "spend": 0.0,
+          "imp": 1,
+          "reach": 1,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        },
+        "whatsapp": {
+          "spend": 0.010004,
+          "imp": 1,
+          "reach": 1,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        }
+      },
       "ads": []
     },
     "last_30d": {
       "since": "2026-05-05",
       "until": "2026-06-03",
-      "summary": {},
-      "platforms": {},
+      "summary": {
+        "spend": 33646.9,
+        "imp": 21495104,
+        "reach": 1663803,
+        "clicks": 204460,
+        "ctr": 0.951193,
+        "cpc": 0.164565,
+        "cpm": 1.565329,
+        "freq": 12.91926,
+        "leads": 0,
+        "thruplay": 0,
+        "views25": 0,
+        "views100": 0
+      },
+      "platforms": {
+        "audience_network": {
+          "spend": 3139.482356,
+          "imp": 2091701,
+          "reach": 248579,
+          "clicks": 12222,
+          "ctr": 0.584309,
+          "cpc": 0.256871,
+          "leads": 0
+        },
+        "facebook": {
+          "spend": 23049.33919,
+          "imp": 14513464,
+          "reach": 1317966,
+          "clicks": 173575,
+          "ctr": 1.195958,
+          "cpc": 0.132792,
+          "leads": 0
+        },
+        "instagram": {
+          "spend": 7455.968035,
+          "imp": 4887762,
+          "reach": 597287,
+          "clicks": 18633,
+          "ctr": 0.381217,
+          "cpc": 0.400149,
+          "leads": 0
+        },
+        "messenger": {
+          "spend": 0.070014,
+          "imp": 329,
+          "reach": 309,
+          "clicks": 1,
+          "ctr": 0.303951,
+          "cpc": 0.070014,
+          "leads": 0
+        },
+        "threads": {
+          "spend": 2.030403,
+          "imp": 1845,
+          "reach": 1524,
+          "clicks": 29,
+          "ctr": 1.571816,
+          "cpc": 0.070014,
+          "leads": 0
+        },
+        "unknown": {
+          "spend": 0.0,
+          "imp": 2,
+          "reach": 2,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        },
+        "whatsapp": {
+          "spend": 0.010002,
+          "imp": 1,
+          "reach": 1,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        }
+      },
       "ads": []
     },
     "last_90d": {
       "since": "2026-03-06",
       "until": "2026-06-03",
-      "summary": {},
-      "platforms": {},
+      "summary": {
+        "spend": 96402.9,
+        "imp": 58044431,
+        "reach": 2005184,
+        "clicks": 704877,
+        "ctr": 1.214375,
+        "cpc": 0.136766,
+        "cpm": 1.660847,
+        "freq": 28.947184,
+        "leads": 0,
+        "thruplay": 0,
+        "views25": 0,
+        "views100": 0
+      },
+      "platforms": {
+        "audience_network": {
+          "spend": 8329.738514,
+          "imp": 8481532,
+          "reach": 455300,
+          "clicks": 46923,
+          "ctr": 0.553237,
+          "cpc": 0.177519,
+          "leads": 0
+        },
+        "facebook": {
+          "spend": 72372.437741,
+          "imp": 41329274,
+          "reach": 1628231,
+          "clicks": 593483,
+          "ctr": 1.435987,
+          "cpc": 0.121945,
+          "leads": 0
+        },
+        "instagram": {
+          "spend": 15683.003685,
+          "imp": 8217854,
+          "reach": 749822,
+          "clicks": 64244,
+          "ctr": 0.781761,
+          "cpc": 0.244116,
+          "leads": 0
+        },
+        "messenger": {
+          "spend": 0.290001,
+          "imp": 651,
+          "reach": 603,
+          "clicks": 2,
+          "ctr": 0.30722,
+          "cpc": 0.145001,
+          "leads": 0
+        },
+        "threads": {
+          "spend": 17.41006,
+          "imp": 15106,
+          "reach": 8420,
+          "clicks": 224,
+          "ctr": 1.482854,
+          "cpc": 0.077723,
+          "leads": 0
+        },
+        "unknown": {
+          "spend": 0.01,
+          "imp": 13,
+          "reach": 13,
+          "clicks": 1,
+          "ctr": 7.692308,
+          "cpc": 0.01,
+          "leads": 0
+        },
+        "whatsapp": {
+          "spend": 0.01,
+          "imp": 1,
+          "reach": 1,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "leads": 0
+        }
+      },
       "ads": []
     }
   }
