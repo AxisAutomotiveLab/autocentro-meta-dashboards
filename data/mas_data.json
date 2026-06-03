@@ -4,7 +4,7 @@
     "dealer_name": "Autocentro Mas",
     "account_id": "850818032362895",
     "color": "#f59e0b",
-    "fetched_at": "2026-06-03 19:11 UTC",
+    "fetched_at": "2026-06-03 19:22 UTC",
     "data_date": "2026-06-03"
   },
   "ranges": {
@@ -12,40 +12,40 @@
       "since": "2026-05-28",
       "until": "2026-06-03",
       "summary": {
-        "spend": 4197.61,
-        "imp": 2530835,
+        "spend": 4200.69,
+        "imp": 2533619,
         "reach": 790593,
-        "clicks": 28442,
-        "ctr": 1.123819,
-        "cpc": 0.147585,
-        "cpm": 1.658587,
-        "freq": 3.201186,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "clicks": 28458,
+        "ctr": 1.123215,
+        "cpc": 0.14761,
+        "cpm": 1.65798,
+        "freq": 3.204707,
+        "leads": 152,
+        "thruplay": 18460,
+        "views25": 48444,
+        "views100": 7189
       },
       "platforms": {
         "facebook": {
-          "spend": 2224.687285,
-          "imp": 1569645,
+          "spend": 2226.909298,
+          "imp": 1571294,
           "reach": 551685,
-          "clicks": 23241,
-          "ctr": 1.480653,
-          "cpc": 0.095723,
-          "leads": 0
+          "clicks": 23251,
+          "ctr": 1.479736,
+          "cpc": 0.095777,
+          "leads": 49
         },
         "instagram": {
-          "spend": 1970.711973,
-          "imp": 958825,
+          "spend": 1972.690105,
+          "imp": 959960,
           "reach": 308220,
-          "clicks": 5201,
-          "ctr": 0.542435,
-          "cpc": 0.37891,
-          "leads": 0
+          "clicks": 5207,
+          "ctr": 0.542418,
+          "cpc": 0.378853,
+          "leads": 103
         },
         "messenger": {
-          "spend": 0.010003,
+          "spend": 0.010005,
           "imp": 22,
           "reach": 22,
           "clicks": 0,
@@ -54,7 +54,7 @@
           "leads": 0
         },
         "threads": {
-          "spend": 1.080363,
+          "spend": 1.080592,
           "imp": 2343,
           "reach": 2127,
           "clicks": 0,
@@ -66,17 +66,17 @@
       "ads": [
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_BMW_BOF_FEB_2026_FORM",
-          "spend": 88.84,
-          "imp": 10583,
+          "spend": 88.92,
+          "imp": 10596,
           "reach": 5172,
           "clicks": 257,
-          "ctr": 2.428423,
-          "cpc": 0.345681,
-          "freq": 2.04621,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.425444,
+          "cpc": 0.345992,
+          "freq": 2.048724,
+          "leads": 7,
+          "thruplay": 13,
+          "views25": 15,
+          "views100": 6
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_TOYOTA_FEB_2026",
@@ -87,24 +87,24 @@
           "ctr": 2.622483,
           "cpc": 0.046803,
           "freq": 1.759833,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 2,
+          "thruplay": 143,
+          "views25": 425,
+          "views100": 78
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_JEEP_BOF_FEB_2026_FORM",
-          "spend": 51.08,
-          "imp": 6469,
+          "spend": 51.22,
+          "imp": 6475,
           "reach": 3302,
           "clicks": 160,
-          "ctr": 2.473334,
-          "cpc": 0.31925,
-          "freq": 1.959116,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.471042,
+          "cpc": 0.320125,
+          "freq": 1.960933,
+          "leads": 2,
+          "thruplay": 16,
+          "views25": 41,
+          "views100": 11
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_TOYOTA_BOF_MAR_2026_FORM",
@@ -130,23 +130,9 @@
           "cpc": 0.043438,
           "freq": 1.17622,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
-        },
-        {
-          "name": "ACMSJ_META_TRF_BROAD_5K_MOF_WEB",
-          "spend": 9.92,
-          "imp": 14356,
-          "reach": 13784,
-          "clicks": 239,
-          "ctr": 1.664809,
-          "cpc": 0.041506,
-          "freq": 1.041497,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 3,
+          "views25": 3,
+          "views100": 1
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_LEXUS_FEB_2026",
@@ -158,9 +144,9 @@
           "cpc": 0.039091,
           "freq": 1.237435,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 27,
+          "views25": 52,
+          "views100": 10
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_JEEP_FEB_2026",
@@ -172,8 +158,8 @@
           "cpc": 0.04,
           "freq": 1.15478,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 4,
+          "views25": 5,
           "views100": 0
         },
         {
@@ -203,6 +189,20 @@
           "thruplay": 0,
           "views25": 0,
           "views100": 0
+        },
+        {
+          "name": "ACMSJ_TRF_BROAD_INVENTARIO_CAR_ECO_ABRIL_2026_MSG",
+          "spend": 0.0,
+          "imp": 0,
+          "reach": 0,
+          "clicks": 0,
+          "ctr": 0.0,
+          "cpc": 0.0,
+          "freq": 0.0,
+          "leads": 0,
+          "thruplay": 0,
+          "views25": 0,
+          "views100": 0
         }
       ]
     },
@@ -210,40 +210,40 @@
       "since": "2026-05-21",
       "until": "2026-06-03",
       "summary": {
-        "spend": 6280.39,
-        "imp": 4122148,
+        "spend": 6283.47,
+        "imp": 4124932,
         "reach": 930194,
-        "clicks": 50033,
-        "ctr": 1.21376,
-        "cpc": 0.125525,
-        "cpm": 1.523572,
-        "freq": 4.431493,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "clicks": 50049,
+        "ctr": 1.213329,
+        "cpc": 0.125546,
+        "cpm": 1.523291,
+        "freq": 4.434486,
+        "leads": 207,
+        "thruplay": 34366,
+        "views25": 84034,
+        "views100": 12315
       },
       "platforms": {
         "facebook": {
-          "spend": 3722.474773,
-          "imp": 2631455,
+          "spend": 3724.752108,
+          "imp": 2633095,
           "reach": 686985,
-          "clicks": 43692,
-          "ctr": 1.660374,
-          "cpc": 0.085198,
-          "leads": 0
+          "clicks": 43701,
+          "ctr": 1.659682,
+          "cpc": 0.085233,
+          "leads": 87
         },
         "instagram": {
-          "spend": 2555.516526,
-          "imp": 1487916,
+          "spend": 2557.438404,
+          "imp": 1489059,
           "reach": 338943,
-          "clicks": 6341,
-          "ctr": 0.426167,
-          "cpc": 0.403015,
-          "leads": 0
+          "clicks": 6348,
+          "ctr": 0.42631,
+          "cpc": 0.402873,
+          "leads": 120
         },
         "messenger": {
-          "spend": 0.009995,
+          "spend": 0.009996,
           "imp": 29,
           "reach": 29,
           "clicks": 0,
@@ -252,8 +252,8 @@
           "leads": 0
         },
         "threads": {
-          "spend": 1.269313,
-          "imp": 2748,
+          "spend": 1.269493,
+          "imp": 2749,
           "reach": 2317,
           "clicks": 0,
           "ctr": 0.0,
@@ -271,38 +271,38 @@
           "ctr": 2.538004,
           "cpc": 0.048095,
           "freq": 1.963179,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 5,
+          "thruplay": 967,
+          "views25": 1990,
+          "views100": 276
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_BMW_BOF_FEB_2026_FORM",
-          "spend": 132.54,
-          "imp": 16911,
+          "spend": 132.62,
+          "imp": 16924,
           "reach": 6943,
           "clicks": 414,
-          "ctr": 2.448111,
-          "cpc": 0.320145,
-          "freq": 2.435691,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.44623,
+          "cpc": 0.320338,
+          "freq": 2.437563,
+          "leads": 10,
+          "thruplay": 16,
+          "views25": 21,
+          "views100": 8
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_JEEP_BOF_FEB_2026_FORM",
-          "spend": 85.3,
-          "imp": 12339,
+          "spend": 85.44,
+          "imp": 12345,
           "reach": 5070,
           "clicks": 293,
-          "ctr": 2.374585,
-          "cpc": 0.291126,
-          "freq": 2.433728,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.373431,
+          "cpc": 0.291604,
+          "freq": 2.434911,
+          "leads": 4,
+          "thruplay": 16,
+          "views25": 41,
+          "views100": 11
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_BMW_FEB_2026",
@@ -314,9 +314,9 @@
           "cpc": 0.040787,
           "freq": 1.505943,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 183,
+          "views25": 263,
+          "views100": 31
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_LEXUS_FEB_2026",
@@ -328,9 +328,9 @@
           "cpc": 0.03872,
           "freq": 1.30473,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 157,
+          "views25": 285,
+          "views100": 38
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_MERCEDES_BENZ_FEB_2026",
@@ -342,9 +342,9 @@
           "cpc": 0.038298,
           "freq": 1.312371,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 36,
+          "views25": 54,
+          "views100": 6
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_JEEP_FEB_2026",
@@ -355,10 +355,10 @@
           "ctr": 2.720465,
           "cpc": 0.039438,
           "freq": 1.19989,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 2,
+          "thruplay": 18,
+          "views25": 26,
+          "views100": 3
         },
         {
           "name": "ACMSJ_TRF_BROAD_WEB_CANVA_NVENTARIO_DIGITAL_FEB_2026_WEB",
@@ -408,40 +408,40 @@
       "since": "2026-05-05",
       "until": "2026-06-03",
       "summary": {
-        "spend": 9904.5,
-        "imp": 7266327,
+        "spend": 9907.58,
+        "imp": 7269111,
         "reach": 1159254,
-        "clicks": 85072,
-        "ctr": 1.17077,
-        "cpc": 0.116425,
-        "cpm": 1.363068,
-        "freq": 6.268106,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "clicks": 85088,
+        "ctr": 1.170542,
+        "cpc": 0.116439,
+        "cpm": 1.36297,
+        "freq": 6.270508,
+        "leads": 332,
+        "thruplay": 58789,
+        "views25": 146145,
+        "views100": 31133
       },
       "platforms": {
         "facebook": {
-          "spend": 6573.809902,
-          "imp": 5097372,
+          "spend": 6576.150539,
+          "imp": 5098988,
           "reach": 932124,
-          "clicks": 76755,
-          "ctr": 1.505776,
-          "cpc": 0.085647,
-          "leads": 0
+          "clicks": 76763,
+          "ctr": 1.505456,
+          "cpc": 0.085668,
+          "leads": 190
         },
         "instagram": {
-          "spend": 3325.741776,
-          "imp": 2162046,
+          "spend": 3327.600416,
+          "imp": 2163214,
           "reach": 369065,
-          "clicks": 8310,
-          "ctr": 0.384358,
-          "cpc": 0.40021,
-          "leads": 0
+          "clicks": 8318,
+          "ctr": 0.38452,
+          "cpc": 0.400048,
+          "leads": 142
         },
         "messenger": {
-          "spend": 0.009997,
+          "spend": 0.009998,
           "imp": 40,
           "reach": 40,
           "clicks": 0,
@@ -450,12 +450,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 3.818705,
+          "spend": 3.819048,
           "imp": 6867,
           "reach": 5160,
           "clicks": 7,
           "ctr": 0.101937,
-          "cpc": 0.545529,
+          "cpc": 0.545578,
           "leads": 0
         },
         "unknown": {
@@ -478,38 +478,38 @@
           "ctr": 2.591597,
           "cpc": 0.04648,
           "freq": 2.369259,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 24,
+          "thruplay": 2988,
+          "views25": 6232,
+          "views100": 747
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_BMW_BOF_FEB_2026_FORM",
-          "spend": 235.9,
-          "imp": 31723,
+          "spend": 235.98,
+          "imp": 31736,
           "reach": 11047,
           "clicks": 782,
-          "ctr": 2.465088,
-          "cpc": 0.301662,
-          "freq": 2.871639,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.464079,
+          "cpc": 0.301765,
+          "freq": 2.872816,
+          "leads": 15,
+          "thruplay": 29,
+          "views25": 40,
+          "views100": 17
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_JEEP_BOF_FEB_2026_FORM",
-          "spend": 128.21,
-          "imp": 18770,
+          "spend": 128.35,
+          "imp": 18776,
           "reach": 6871,
           "clicks": 413,
-          "ctr": 2.20032,
-          "cpc": 0.310436,
-          "freq": 2.731771,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "ctr": 2.199617,
+          "cpc": 0.310775,
+          "freq": 2.732644,
+          "leads": 6,
+          "thruplay": 16,
+          "views25": 41,
+          "views100": 11
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_BMW_FEB_2026",
@@ -520,10 +520,10 @@
           "ctr": 2.926369,
           "cpc": 0.040776,
           "freq": 1.589505,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 1,
+          "thruplay": 199,
+          "views25": 297,
+          "views100": 32
         },
         {
           "name": "ACMSJ_LEAD_BROAD_CATALOGO_MERCEDES_BOF_FEB_2026_FORM",
@@ -534,7 +534,7 @@
           "ctr": 4.403151,
           "cpc": 0.198486,
           "freq": 1.816881,
-          "leads": 0,
+          "leads": 1,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -562,10 +562,10 @@
           "ctr": 3.240895,
           "cpc": 0.039141,
           "freq": 1.357985,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 1,
+          "thruplay": 235,
+          "views25": 419,
+          "views100": 48
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_MERCEDES_BENZ_FEB_2026",
@@ -577,9 +577,9 @@
           "cpc": 0.03895,
           "freq": 1.475103,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 67,
+          "views25": 120,
+          "views100": 12
         },
         {
           "name": "ACM_TRF_BROAD_WEB_IMG_JEEP_FEB_2026",
@@ -590,10 +590,10 @@
           "ctr": 2.543735,
           "cpc": 0.041301,
           "freq": 1.26465,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 2,
+          "thruplay": 91,
+          "views25": 126,
+          "views100": 10
         },
         {
           "name": "ACMSJ_TRF_BROAD_INVENTARIO_CAR_JEEP_MAYO_2026_MSG",
@@ -605,8 +605,8 @@
           "cpc": 0.036389,
           "freq": 1.075243,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 4,
+          "views25": 9,
           "views100": 0
         }
       ]
@@ -615,46 +615,46 @@
       "since": "2026-03-06",
       "until": "2026-06-03",
       "summary": {
-        "spend": 27726.76,
-        "imp": 18988298,
+        "spend": 27729.84,
+        "imp": 18991082,
         "reach": 1488040,
-        "clicks": 196851,
-        "ctr": 1.036696,
-        "cpc": 0.140852,
-        "cpm": 1.460202,
-        "freq": 12.76061,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "clicks": 196867,
+        "ctr": 1.036629,
+        "cpc": 0.140856,
+        "cpm": 1.460151,
+        "freq": 12.762481,
+        "leads": 910,
+        "thruplay": 123082,
+        "views25": 304269,
+        "views100": 68812
       },
       "platforms": {
         "audience_network": {
-          "spend": 199.731676,
-          "imp": 41425,
+          "spend": 199.730313,
+          "imp": 41426,
           "reach": 11871,
           "clicks": 1223,
-          "ctr": 2.952323,
-          "cpc": 0.163313,
-          "leads": 0
+          "ctr": 2.952252,
+          "cpc": 0.163312,
+          "leads": 18
         },
         "facebook": {
-          "spend": 21803.696367,
-          "imp": 15284171,
+          "spend": 21805.297224,
+          "imp": 15286350,
           "reach": 1269029,
-          "clicks": 179749,
-          "ctr": 1.176047,
-          "cpc": 0.121301,
-          "leads": 0
+          "clicks": 179765,
+          "ctr": 1.175984,
+          "cpc": 0.121299,
+          "leads": 670
         },
         "instagram": {
-          "spend": 5716.603114,
-          "imp": 3652890,
+          "spend": 5718.123792,
+          "imp": 3654247,
           "reach": 455486,
-          "clicks": 15832,
-          "ctr": 0.43341,
-          "cpc": 0.361079,
-          "leads": 0
+          "clicks": 15840,
+          "ctr": 0.433468,
+          "cpc": 0.360993,
+          "leads": 222
         },
         "messenger": {
           "spend": 0.059988,
@@ -666,12 +666,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 5.968855,
+          "spend": 5.968814,
           "imp": 8970,
           "reach": 6286,
           "clicks": 39,
           "ctr": 0.434783,
-          "cpc": 0.153048,
+          "cpc": 0.153047,
           "leads": 0
         },
         "unknown": {
@@ -694,7 +694,7 @@
           "ctr": 2.212106,
           "cpc": 0.146688,
           "freq": 2.675539,
-          "leads": 0,
+          "leads": 8,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -708,7 +708,7 @@
           "ctr": 2.154403,
           "cpc": 0.182398,
           "freq": 2.155255,
-          "leads": 0,
+          "leads": 9,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -722,7 +722,7 @@
           "ctr": 1.106812,
           "cpc": 0.060693,
           "freq": 1.342428,
-          "leads": 0,
+          "leads": 3,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -736,7 +736,7 @@
           "ctr": 1.615999,
           "cpc": 0.172818,
           "freq": 3.554586,
-          "leads": 0,
+          "leads": 3,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -750,7 +750,7 @@
           "ctr": 3.374741,
           "cpc": 0.130368,
           "freq": 1.606252,
-          "leads": 0,
+          "leads": 3,
           "thruplay": 0,
           "views25": 0,
           "views100": 0

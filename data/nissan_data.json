@@ -4,7 +4,7 @@
     "dealer_name": "Autocentro Nissan",
     "account_id": "407938286956756",
     "color": "#C3002F",
-    "fetched_at": "2026-06-03 19:11 UTC",
+    "fetched_at": "2026-06-03 19:22 UTC",
     "data_date": "2026-06-03"
   },
   "ranges": {
@@ -12,46 +12,46 @@
       "since": "2026-05-28",
       "until": "2026-06-03",
       "summary": {
-        "spend": 4332.99,
-        "imp": 2785003,
-        "reach": 744562,
-        "clicks": 22605,
-        "ctr": 0.811669,
-        "cpc": 0.191683,
-        "cpm": 1.55583,
-        "freq": 3.740458,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "spend": 4341.12,
+        "imp": 2790126,
+        "reach": 746987,
+        "clicks": 22650,
+        "ctr": 0.811791,
+        "cpc": 0.191661,
+        "cpm": 1.555887,
+        "freq": 3.735173,
+        "leads": 57,
+        "thruplay": 27649,
+        "views25": 39685,
+        "views100": 5697
       },
       "platforms": {
         "audience_network": {
-          "spend": 368.831818,
-          "imp": 659917,
+          "spend": 368.785511,
+          "imp": 660367,
           "reach": 75682,
-          "clicks": 3356,
-          "ctr": 0.508549,
-          "cpc": 0.109902,
-          "leads": 0
+          "clicks": 3359,
+          "ctr": 0.508657,
+          "cpc": 0.10979,
+          "leads": 1
         },
         "facebook": {
-          "spend": 3124.757509,
-          "imp": 1849723,
-          "reach": 586810,
-          "clicks": 18189,
-          "ctr": 0.983336,
-          "cpc": 0.171794,
-          "leads": 0
+          "spend": 3128.481843,
+          "imp": 1853870,
+          "reach": 587646,
+          "clicks": 18229,
+          "ctr": 0.983294,
+          "cpc": 0.171621,
+          "leads": 39
         },
         "instagram": {
-          "spend": 842.345798,
-          "imp": 274693,
-          "reach": 121252,
-          "clicks": 1042,
-          "ctr": 0.379333,
-          "cpc": 0.808393,
-          "leads": 0
+          "spend": 843.191578,
+          "imp": 275219,
+          "reach": 121366,
+          "clicks": 1044,
+          "ctr": 0.379334,
+          "cpc": 0.807655,
+          "leads": 17
         },
         "messenger": {
           "spend": 0.0,
@@ -63,12 +63,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 0.66115,
+          "spend": 0.661067,
           "imp": 625,
           "reach": 533,
           "clicks": 17,
           "ctr": 2.72,
-          "cpc": 0.038891,
+          "cpc": 0.038886,
           "leads": 0
         },
         "unknown": {
@@ -106,9 +106,9 @@
           "cpc": 0.0655,
           "freq": 3.088911,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 410,
+          "views25": 528,
+          "views100": 117
         },
         {
           "name": "ACN_TRF_BROAD_INVENTARIO_DIGITAL_TOF",
@@ -134,9 +134,9 @@
           "cpc": 0.06917,
           "freq": 1.729063,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 1271,
+          "views25": 1635,
+          "views100": 213
         },
         {
           "name": "ACT_TRF_BROAD_WEB_ROGUE_MOF",
@@ -148,9 +148,9 @@
           "cpc": 0.079647,
           "freq": 1.838757,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 3497,
+          "views25": 4794,
+          "views100": 1622
         },
         {
           "name": "ACN_AWR_BROAD_WA_VENTAS_TOF",
@@ -162,7 +162,7 @@
           "cpc": 0.596026,
           "freq": 1.208408,
           "leads": 0,
-          "thruplay": 0,
+          "thruplay": 1,
           "views25": 0,
           "views100": 0
         },
@@ -190,9 +190,9 @@
           "cpc": 0.093231,
           "freq": 1.461204,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 32,
+          "views25": 41,
+          "views100": 4
         },
         {
           "name": "ACN_TRF_BROAD_WEB_IMG_MURANO_FEB_2026",
@@ -204,8 +204,8 @@
           "cpc": 0.047742,
           "freq": 1.616417,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 15,
+          "views25": 22,
           "views100": 0
         },
         {
@@ -218,8 +218,8 @@
           "cpc": 0.047778,
           "freq": 1.421053,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 1,
+          "views25": 2,
           "views100": 0
         }
       ]
@@ -228,46 +228,46 @@
       "since": "2026-05-21",
       "until": "2026-06-03",
       "summary": {
-        "spend": 8182.18,
-        "imp": 5387414,
-        "reach": 963278,
-        "clicks": 44494,
-        "ctr": 0.825888,
-        "cpc": 0.183894,
-        "cpm": 1.518758,
-        "freq": 5.592793,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "spend": 8190.31,
+        "imp": 5392537,
+        "reach": 965531,
+        "clicks": 44539,
+        "ctr": 0.825938,
+        "cpc": 0.183891,
+        "cpm": 1.518823,
+        "freq": 5.585048,
+        "leads": 138,
+        "thruplay": 48355,
+        "views25": 69416,
+        "views100": 14009
       },
       "platforms": {
         "audience_network": {
-          "spend": 841.713714,
-          "imp": 1229551,
+          "spend": 841.658389,
+          "imp": 1229984,
           "reach": 124765,
-          "clicks": 7694,
-          "ctr": 0.625757,
-          "cpc": 0.109399,
-          "leads": 0
+          "clicks": 7697,
+          "ctr": 0.625781,
+          "cpc": 0.109349,
+          "leads": 1
         },
         "facebook": {
-          "spend": 6127.553721,
-          "imp": 3683874,
-          "reach": 777680,
-          "clicks": 34931,
-          "ctr": 0.948214,
-          "cpc": 0.175419,
-          "leads": 0
+          "spend": 6131.264667,
+          "imp": 3688057,
+          "reach": 779148,
+          "clicks": 34973,
+          "ctr": 0.948277,
+          "cpc": 0.175314,
+          "leads": 114
         },
         "instagram": {
-          "spend": 1214.874462,
-          "imp": 472217,
-          "reach": 158149,
+          "spend": 1215.745465,
+          "imp": 472723,
+          "reach": 158343,
           "clicks": 1836,
-          "ctr": 0.388804,
-          "cpc": 0.661696,
-          "leads": 0
+          "ctr": 0.388388,
+          "cpc": 0.662171,
+          "leads": 23
         },
         "messenger": {
           "spend": 0.0,
@@ -279,12 +279,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 1.641587,
-          "imp": 1685,
+          "spend": 1.641479,
+          "imp": 1686,
           "reach": 1242,
           "clicks": 31,
-          "ctr": 1.839763,
-          "cpc": 0.052954,
+          "ctr": 1.838671,
+          "cpc": 0.052951,
           "leads": 0
         },
         "unknown": {
@@ -308,9 +308,9 @@
           "cpc": 0.066708,
           "freq": 3.56362,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 1324,
+          "views25": 1716,
+          "views100": 328
         },
         {
           "name": "ACT_TRF_BROAD_CITAS_ONLINE_TOF",
@@ -350,9 +350,9 @@
           "cpc": 0.068047,
           "freq": 1.778425,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 3678,
+          "views25": 4857,
+          "views100": 515
         },
         {
           "name": "ACT_TRF_BROAD_WEB_ROGUE_MOF",
@@ -364,9 +364,9 @@
           "cpc": 0.074415,
           "freq": 2.011037,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 8346,
+          "views25": 11581,
+          "views100": 3924
         },
         {
           "name": "ACN_AWR_BROAD_WA_VENTAS_TOF",
@@ -378,7 +378,7 @@
           "cpc": 0.590553,
           "freq": 1.473335,
           "leads": 0,
-          "thruplay": 0,
+          "thruplay": 2,
           "views25": 0,
           "views100": 0
         },
@@ -406,9 +406,9 @@
           "cpc": 0.084091,
           "freq": 1.39438,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 95,
+          "views25": 134,
+          "views100": 9
         },
         {
           "name": "ACN_TRF_BROAD_WEB_IMG_MURANO_FEB_2026",
@@ -420,9 +420,9 @@
           "cpc": 0.051176,
           "freq": 1.35122,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 80,
+          "views25": 100,
+          "views100": 7
         },
         {
           "name": "ACN_TRF_BROAD_WEB_IMG_KICKS_FEB_2026",
@@ -434,8 +434,8 @@
           "cpc": 0.048095,
           "freq": 1.293381,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 8,
+          "views25": 13,
           "views100": 0
         }
       ]
@@ -444,49 +444,49 @@
       "since": "2026-05-05",
       "until": "2026-06-03",
       "summary": {
-        "spend": 21469.86,
-        "imp": 12409707,
+        "spend": 21477.99,
+        "imp": 12414830,
         "reach": 1373067,
-        "clicks": 112537,
-        "ctr": 0.906847,
-        "cpc": 0.19078,
-        "cpm": 1.730086,
-        "freq": 9.037947,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "clicks": 112582,
+        "ctr": 0.906835,
+        "cpc": 0.190776,
+        "cpm": 1.730027,
+        "freq": 9.041678,
+        "leads": 394,
+        "thruplay": 86371,
+        "views25": 131045,
+        "views100": 19808
       },
       "platforms": {
         "audience_network": {
-          "spend": 1451.424213,
-          "imp": 2414960,
+          "spend": 1451.478173,
+          "imp": 2414926,
           "reach": 237296,
-          "clicks": 14519,
-          "ctr": 0.601211,
-          "cpc": 0.099967,
-          "leads": 0
+          "clicks": 14520,
+          "ctr": 0.601261,
+          "cpc": 0.099964,
+          "leads": 1
         },
         "facebook": {
-          "spend": 15637.577576,
-          "imp": 8641768,
-          "reach": 1099093,
-          "clicks": 85804,
-          "ctr": 0.992899,
-          "cpc": 0.182248,
-          "leads": 0
+          "spend": 15644.150417,
+          "imp": 8646461,
+          "reach": 1099873,
+          "clicks": 85846,
+          "ctr": 0.992846,
+          "cpc": 0.182235,
+          "leads": 306
         },
         "instagram": {
-          "spend": 4376.437284,
-          "imp": 1347389,
-          "reach": 290323,
-          "clicks": 12144,
-          "ctr": 0.901299,
-          "cpc": 0.360379,
-          "leads": 0
+          "spend": 4377.940319,
+          "imp": 1347854,
+          "reach": 290541,
+          "clicks": 12146,
+          "ctr": 0.901136,
+          "cpc": 0.360443,
+          "leads": 87
         },
         "messenger": {
-          "spend": 0.030006,
+          "spend": 0.030007,
           "imp": 229,
           "reach": 221,
           "clicks": 0,
@@ -495,12 +495,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 4.310904,
-          "imp": 5271,
+          "spend": 4.311064,
+          "imp": 5270,
           "reach": 3063,
           "clicks": 67,
-          "ctr": 1.271106,
-          "cpc": 0.064342,
+          "ctr": 1.271347,
+          "cpc": 0.064344,
           "leads": 0
         },
         "unknown": {
@@ -513,7 +513,7 @@
           "leads": 0
         },
         "whatsapp": {
-          "spend": 0.080017,
+          "spend": 0.08002,
           "imp": 89,
           "reach": 0,
           "clicks": 0,
@@ -532,7 +532,7 @@
           "ctr": 1.588086,
           "cpc": 0.431556,
           "freq": 2.039833,
-          "leads": 0,
+          "leads": 7,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -546,7 +546,7 @@
           "ctr": 1.720559,
           "cpc": 0.388874,
           "freq": 1.898503,
-          "leads": 0,
+          "leads": 6,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -560,7 +560,7 @@
           "ctr": 2.37211,
           "cpc": 0.196072,
           "freq": 1.981506,
-          "leads": 0,
+          "leads": 5,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -574,7 +574,7 @@
           "ctr": 2.267297,
           "cpc": 0.315675,
           "freq": 1.842105,
-          "leads": 0,
+          "leads": 4,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -588,7 +588,7 @@
           "ctr": 1.771474,
           "cpc": 0.299465,
           "freq": 2.013059,
-          "leads": 0,
+          "leads": 5,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -602,7 +602,7 @@
           "ctr": 1.86063,
           "cpc": 0.339071,
           "freq": 1.880927,
-          "leads": 0,
+          "leads": 5,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -616,10 +616,10 @@
           "ctr": 2.271224,
           "cpc": 0.402796,
           "freq": 2.196764,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 7,
+          "thruplay": 234,
+          "views25": 414,
+          "views100": 56
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_VERSA",
@@ -631,9 +631,9 @@
           "cpc": 0.887436,
           "freq": 1.445122,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 151,
+          "views25": 213,
+          "views100": 7
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_MURANO",
@@ -645,9 +645,9 @@
           "cpc": 0.433077,
           "freq": 1.437229,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "thruplay": 12,
+          "views25": 17,
+          "views100": 2
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_KICKS",
@@ -669,49 +669,49 @@
       "since": "2026-03-06",
       "until": "2026-06-03",
       "summary": {
-        "spend": 63103.29,
-        "imp": 39518226,
+        "spend": 63111.42,
+        "imp": 39523349,
         "reach": 1883414,
-        "clicks": 344440,
-        "ctr": 0.871598,
+        "clicks": 344485,
+        "ctr": 0.871599,
         "cpc": 0.183205,
-        "cpm": 1.596815,
-        "freq": 20.98223,
-        "leads": 0,
-        "thruplay": 0,
-        "views25": 0,
-        "views100": 0
+        "cpm": 1.596814,
+        "freq": 20.98495,
+        "leads": 979,
+        "thruplay": 447337,
+        "views25": 627531,
+        "views100": 142627
       },
       "platforms": {
         "audience_network": {
-          "spend": 5120.440417,
-          "imp": 6455871,
+          "spend": 5120.505384,
+          "imp": 6455843,
           "reach": 405478,
-          "clicks": 47575,
-          "ctr": 0.736926,
-          "cpc": 0.107629,
-          "leads": 0
+          "clicks": 47576,
+          "ctr": 0.736945,
+          "cpc": 0.107628,
+          "leads": 1
         },
         "facebook": {
-          "spend": 44649.426517,
-          "imp": 28385807,
+          "spend": 44655.982496,
+          "imp": 28390495,
           "reach": 1512263,
-          "clicks": 246442,
-          "ctr": 0.868187,
-          "cpc": 0.181176,
-          "leads": 0
+          "clicks": 246484,
+          "ctr": 0.868192,
+          "cpc": 0.181172,
+          "leads": 707
         },
         "instagram": {
-          "spend": 13321.054297,
-          "imp": 4663631,
-          "reach": 550365,
-          "clicks": 50257,
-          "ctr": 1.077637,
-          "cpc": 0.265059,
-          "leads": 0
+          "spend": 13322.563194,
+          "imp": 4664094,
+          "reach": 550512,
+          "clicks": 50259,
+          "ctr": 1.077573,
+          "cpc": 0.265078,
+          "leads": 271
         },
         "messenger": {
-          "spend": 0.229977,
+          "spend": 0.22998,
           "imp": 620,
           "reach": 583,
           "clicks": 0,
@@ -720,12 +720,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 12.0588,
+          "spend": 12.058953,
           "imp": 12203,
           "reach": 5996,
           "clicks": 163,
           "ctr": 1.335737,
-          "cpc": 0.07398,
+          "cpc": 0.073981,
           "leads": 0
         },
         "unknown": {
@@ -738,7 +738,7 @@
           "leads": 0
         },
         "whatsapp": {
-          "spend": 0.079992,
+          "spend": 0.079993,
           "imp": 89,
           "reach": 0,
           "clicks": 0,
@@ -757,7 +757,7 @@
           "ctr": 2.094836,
           "cpc": 0.28476,
           "freq": 2.891766,
-          "leads": 0,
+          "leads": 33,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -771,7 +771,7 @@
           "ctr": 1.784837,
           "cpc": 0.370407,
           "freq": 3.15593,
-          "leads": 0,
+          "leads": 34,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -785,7 +785,7 @@
           "ctr": 2.050051,
           "cpc": 0.278363,
           "freq": 3.064543,
-          "leads": 0,
+          "leads": 28,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -799,7 +799,7 @@
           "ctr": 2.464522,
           "cpc": 0.17562,
           "freq": 3.036829,
-          "leads": 0,
+          "leads": 33,
           "thruplay": 0,
           "views25": 0,
           "views100": 0
@@ -813,10 +813,10 @@
           "ctr": 2.201028,
           "cpc": 0.354044,
           "freq": 2.869239,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 33,
+          "thruplay": 895,
+          "views25": 1576,
+          "views100": 282
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_VERSA",
@@ -827,10 +827,10 @@
           "ctr": 1.913409,
           "cpc": 0.654431,
           "freq": 2.318949,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 14,
+          "thruplay": 1324,
+          "views25": 1932,
+          "views100": 90
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_MURANO",
@@ -841,10 +841,10 @@
           "ctr": 3.65767,
           "cpc": 0.354417,
           "freq": 2.080532,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 4,
+          "thruplay": 162,
+          "views25": 250,
+          "views100": 49
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_ROGUE",
@@ -855,10 +855,10 @@
           "ctr": 2.936951,
           "cpc": 0.327826,
           "freq": 1.834016,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 1,
+          "thruplay": 182,
+          "views25": 419,
+          "views100": 173
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_PATHFINDER",
@@ -869,10 +869,10 @@
           "ctr": 1.61162,
           "cpc": 0.487407,
           "freq": 2.061526,
-          "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
-          "views100": 0
+          "leads": 1,
+          "thruplay": 60,
+          "views25": 99,
+          "views100": 21
         },
         {
           "name": "ACN_LEAD_BROAD_CARRUSEL_IMG_KICKS",
@@ -884,8 +884,8 @@
           "cpc": 0.537895,
           "freq": 1.492,
           "leads": 0,
-          "thruplay": 0,
-          "views25": 0,
+          "thruplay": 18,
+          "views25": 22,
           "views100": 0
         }
       ]
