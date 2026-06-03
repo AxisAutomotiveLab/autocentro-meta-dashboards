@@ -4,7 +4,7 @@
     "dealer_name": "Autocentro Mas",
     "account_id": "850818032362895",
     "color": "#f59e0b",
-    "fetched_at": "2026-06-03 19:05 UTC",
+    "fetched_at": "2026-06-03 19:08 UTC",
     "data_date": "2026-06-03"
   },
   "ranges": {
@@ -12,14 +12,14 @@
       "since": "2026-05-28",
       "until": "2026-06-03",
       "summary": {
-        "spend": 4196.15,
-        "imp": 2529361,
+        "spend": 4196.91,
+        "imp": 2530082,
         "reach": 790593,
-        "clicks": 28428,
-        "ctr": 1.12392,
-        "cpc": 0.147606,
-        "cpm": 1.658976,
-        "freq": 3.199321,
+        "clicks": 28434,
+        "ctr": 1.123837,
+        "cpc": 0.147602,
+        "cpm": 1.658804,
+        "freq": 3.200233,
         "leads": 0,
         "thruplay": 0,
         "views25": 0,
@@ -84,25 +84,25 @@
       },
       "platforms": {
         "facebook": {
-          "spend": 3721.893081,
-          "imp": 2630604,
+          "spend": 3722.723398,
+          "imp": 2630974,
           "reach": 686985,
-          "clicks": 43680,
-          "ctr": 1.660455,
-          "cpc": 0.085208,
+          "clicks": 43684,
+          "ctr": 1.660374,
+          "cpc": 0.085219,
           "leads": 0
         },
         "instagram": {
-          "spend": 2555.128056,
-          "imp": 1487295,
+          "spend": 2555.68721,
+          "imp": 1487644,
           "reach": 338943,
-          "clicks": 6339,
-          "ctr": 0.42621,
-          "cpc": 0.403081,
+          "clicks": 6341,
+          "ctr": 0.426244,
+          "cpc": 0.403042,
           "leads": 0
         },
         "messenger": {
-          "spend": 0.009994,
+          "spend": 0.009995,
           "imp": 29,
           "reach": 29,
           "clicks": 0,
@@ -111,9 +111,9 @@
           "leads": 0
         },
         "threads": {
-          "spend": 1.269244,
-          "imp": 2746,
-          "reach": 2314,
+          "spend": 1.269398,
+          "imp": 2748,
+          "reach": 2317,
           "clicks": 0,
           "ctr": 0.0,
           "cpc": 0.0,
@@ -126,14 +126,14 @@
       "since": "2026-05-05",
       "until": "2026-06-03",
       "summary": {
-        "spend": 9903.04,
-        "imp": 7264853,
+        "spend": 9903.8,
+        "imp": 7265574,
         "reach": 1159254,
-        "clicks": 85058,
-        "ctr": 1.170815,
-        "cpc": 0.116427,
-        "cpm": 1.363144,
-        "freq": 6.266835,
+        "clicks": 85064,
+        "ctr": 1.170782,
+        "cpc": 0.116428,
+        "cpm": 1.363113,
+        "freq": 6.267456,
         "leads": 0,
         "thruplay": 0,
         "views25": 0,
@@ -141,21 +141,21 @@
       },
       "platforms": {
         "facebook": {
-          "spend": 6573.622139,
-          "imp": 5096496,
+          "spend": 6574.088444,
+          "imp": 5096843,
           "reach": 932124,
-          "clicks": 76742,
-          "ctr": 1.50578,
+          "clicks": 76747,
+          "ctr": 1.505775,
           "cpc": 0.085659,
           "leads": 0
         },
         "instagram": {
-          "spend": 3325.589048,
-          "imp": 2161450,
+          "spend": 3325.882693,
+          "imp": 2161822,
           "reach": 369065,
-          "clicks": 8309,
-          "ctr": 0.384418,
-          "cpc": 0.400239,
+          "clicks": 8310,
+          "ctr": 0.384398,
+          "cpc": 0.400227,
           "leads": 0
         },
         "messenger": {
@@ -168,12 +168,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 3.818816,
-          "imp": 6865,
+          "spend": 3.818866,
+          "imp": 6867,
           "reach": 5160,
           "clicks": 7,
-          "ctr": 0.101967,
-          "cpc": 0.545545,
+          "ctr": 0.101937,
+          "cpc": 0.545552,
           "leads": 0
         },
         "unknown": {
@@ -207,30 +207,30 @@
       },
       "platforms": {
         "audience_network": {
-          "spend": 199.730739,
-          "imp": 41426,
+          "spend": 199.731676,
+          "imp": 41425,
           "reach": 11871,
           "clicks": 1223,
-          "ctr": 2.952252,
-          "cpc": 0.163312,
+          "ctr": 2.952323,
+          "cpc": 0.163313,
           "leads": 0
         },
         "facebook": {
-          "spend": 21803.214112,
-          "imp": 15283860,
+          "spend": 21803.696367,
+          "imp": 15284171,
           "reach": 1269029,
-          "clicks": 179745,
-          "ctr": 1.176045,
+          "clicks": 179749,
+          "ctr": 1.176047,
           "cpc": 0.121301,
           "leads": 0
         },
         "instagram": {
-          "spend": 5716.326334,
-          "imp": 3652481,
+          "spend": 5716.603114,
+          "imp": 3652890,
           "reach": 455486,
-          "clicks": 15830,
-          "ctr": 0.433404,
-          "cpc": 0.361107,
+          "clicks": 15832,
+          "ctr": 0.43341,
+          "cpc": 0.361079,
           "leads": 0
         },
         "messenger": {
@@ -243,12 +243,12 @@
           "leads": 0
         },
         "threads": {
-          "spend": 5.968827,
-          "imp": 8968,
+          "spend": 5.968855,
+          "imp": 8970,
           "reach": 6286,
           "clicks": 39,
-          "ctr": 0.43488,
-          "cpc": 0.153047,
+          "ctr": 0.434783,
+          "cpc": 0.153048,
           "leads": 0
         },
         "unknown": {
